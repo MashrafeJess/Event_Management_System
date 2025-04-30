@@ -1,0 +1,31 @@
+﻿@page
+@model WebApp.Pages.Account.DashboardModel
+@{
+    Layout = "MyLayout";
+}
+
+<section class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">User Profile</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.CurrentUser != null)
+                    {
+                        <p><strong>User ID:</strong> @Model.CurrentUser.UserId</p>
+                        <p><strong>Username:</strong> @Model.CurrentUser.UserName</p>
+                        <p><strong>Email:</strong> @Model.CurrentUser.Email</p>
+                        <p><strong>Phone:</strong> @Model.CurrentUser.PhoneNumber</p>
+                        <p><strong>Role:</strong> @(Model.CurrentUser.Role == 1 ? "Admin" : "User")</p>
+                    }
+                    else
+                    {
+                        <p class="text-danger">User information not available.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

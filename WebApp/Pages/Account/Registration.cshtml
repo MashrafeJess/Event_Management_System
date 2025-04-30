@@ -1,0 +1,99 @@
+﻿@page
+@model Web.Pages.Account.RegistrationModel
+@{
+    Layout = "MyLayout";
+}
+
+<style>
+    .register-page {
+        background: #f0f2f5;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .register-body {
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        width: 350px;
+    }
+
+    .register-header {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group > label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .form-group > input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+    .text-danger {
+        color: red;
+        font-size: 12px;
+    }
+
+    .register-button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .register-button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div class="register-page">
+    <div class="register-body">
+        <div class="register-header">Register</div>
+
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="userForm.Email"></label>
+                <input asp-for="userForm.Email" />
+                <span asp-validation-for="userForm.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="userForm.UserName"></label>
+                <input asp-for="userForm.UserName" />
+                <span asp-validation-for="userForm.UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="userForm.Password"></label>
+                <input asp-for="userForm.Password" type="password" />
+                <span asp-validation-for="userForm.Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="register-button">Register</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
