@@ -1,0 +1,39 @@
+﻿@page
+@model WebApp.Pages.EventInfo.EventListModel
+
+<a class="btn btn-primary mb-3 " asp-area="" asp-page="/EventInfo/Events">Add New Event</a>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.List != null && Model.List.Any())
+        {
+            foreach (var item in Model.List)
+            {
+                <tr>
+                    <td>@item.EventName</td>
+                    <td>@item.UserName</td>
+                    <td>@item.CreatedDate</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" asp-page="/EventInfo/Events" asp-route-Id="@item.EventId">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No events available.</td>
+            </tr>
+        }
+    </tbody>
+</table>

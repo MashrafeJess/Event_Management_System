@@ -1,0 +1,87 @@
+﻿@page
+@model WebApp.Pages.Account.ExecutiveRegistration_Model
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .register-page {
+        background: #f0f2f5;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .register-body {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .register-header {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    .text-danger {
+        font-size: 12px;
+    }
+
+    .register-button {
+        width: 100%;
+    }
+</style>
+
+<div class="register-page">
+    <div class="register-body">
+        <div class="register-header">Register</div>
+
+        <form method="post">
+            <div class="mb-3">
+                <label asp-for="userForm.Email" class="form-label"></label>
+                <input asp-for="userForm.Email" class="form-control" />
+                <span asp-validation-for="userForm.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="userForm.UserName" class="form-label"></label>
+                <input asp-for="userForm.UserName" class="form-control" />
+                <span asp-validation-for="userForm.UserName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="userForm.Password" class="form-label"></label>
+                <input asp-for="userForm.Password" type="password" class="form-control" />
+                <span asp-validation-for="userForm.Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="userForm.PhoneNum" class="form-label"></label>
+                <input asp-for="userForm.PhoneNum" type="tel" class="form-control" />
+                <span asp-validation-for="userForm.PhoneNum" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="userForm.Role" class="form-label"></label>
+                <select asp-for="userForm.Role" class="form-select">
+                    <option value="1">Admin</option>
+                    <option value="2">Manager</option>
+                </select>
+                <span asp-validation-for="userForm.Role" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary register-button">Register</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

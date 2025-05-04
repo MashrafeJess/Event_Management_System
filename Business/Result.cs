@@ -5,21 +5,22 @@ namespace Business
     public class Result
     {
         public bool Success;
-        public string message;
+        public string Message;
         public object? Data;
-        public Result() { }
-        public Result(bool Success, string message, object? Data = null)
+        public Result() 
+        { }
+        public Result(bool Success, string Message, object? Data = null)
         {
             this.Success = Success;
-            this.message = message;
+            this.Message = Message;
             this.Data = Data;
         }
-        public static Result DBcommit(EventContext context, string message, string FailedMessage = null, object Data = null)
+        public Result DBcommit(EventContext context, string Message, string? FailedMessage = null, object? Data = null)
         {
             try
             {
                 context.SaveChanges();
-                return new Result(true, message, Data);
+                return new Result(true, Message, Data);
             }
             catch (Exception ex)
             {

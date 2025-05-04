@@ -1,37 +1,37 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Database.Context;
-using Database;// adjust namespace// adjust namespace
+using Microsoft.AspNetCore.Authorization;
+using Database;
+using Business;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.Pages.Account
 {
     [Authorize]
     public class DashboardModel : PageModel
     {
-        private readonly EventContext _context;
+        public string IsLoggedInUser { get; set; }
+        public UserInfo CurrentUser { get; set; } 
 
-        public DashboardModel(EventContext context)
+        public IActionResult OnGet()
         {
-            _context = context;
-        }
+            // Get current user ID
+            IsLoggedInUser = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        public UserInfo CurrentUser { get; set; }
-
-        public async Task<IActionResult> OnGetAsync()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(IsLoggedInUser))
             {
                 return RedirectToPage("/Account/Login");
             }
 
-            CurrentUser = await _context.UserInfo
-                .FirstOrDefaultAsync(u => u.UserId == userId);
+            // Get user details from service
+            Result result = new UserService().Single(IsLoggedInUser);
 
+            if (result.Data == null || !result.Success)
+            {
+                return RedirectToPage("/Account/Unauthorized");
+            }
+
+            CurrentUser = result.Data as UserInfo;
             return Page();
         }
     }

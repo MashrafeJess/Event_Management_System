@@ -1,5 +1,5 @@
 ﻿@page
-@model Web.Pages.Account.RegistrationModel
+@model WebApp.Pages.Account.RegistrationModel
 @{
     Layout = "MyLayout";
 }
@@ -87,6 +87,11 @@
                 <label asp-for="userForm.Password"></label>
                 <input asp-for="userForm.Password" type="password" />
                 <span asp-validation-for="userForm.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="userForm.PhoneNum"></label>
+                <input asp-for="userForm.PhoneNum" type="tel" />
+                <span asp-validation-for="userForm.PhoneNum" class="text-danger"></span>
             </div>
 
             <button type="submit" class="register-button">Register</button>

@@ -46,3 +46,8 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+.bgnav {
+    max-width: 75%;
+    background-color: aqua;
+    border: 3px solid white;
+}

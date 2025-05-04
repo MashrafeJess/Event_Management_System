@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+.header-bgnav {
+    max-width: 75%;
+    background-color: aqua;
+    border: 3px solid white;
+}

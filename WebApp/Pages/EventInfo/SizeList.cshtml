@@ -1,0 +1,41 @@
+﻿@page
+@model WebApp.Pages.EventInfo.SizeListModel
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<a class="btn btn-primary mb-3 " asp-area="" asp-page="/EventInfo/Size">Add New Event Type</a>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.List != null && Model.List.Any())
+        {
+            foreach (var item in Model.List)
+            {
+                <tr>
+                    <td>@item.SizeName</td>
+                    <td>@item.UserName</td>
+                    <td>@item.CreatedDate</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" asp-page="/EventInfo/Size" asp-route-Id="@item.SizeId">
+                            @* <i class="bi bi-pencil-square"></i> *@
+                            <i class="bi bi-pen"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No event type available.</td>
+            </tr>
+        }
+    </tbody>
+</table>

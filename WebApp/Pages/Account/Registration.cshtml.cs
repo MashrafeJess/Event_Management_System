@@ -1,10 +1,9 @@
 using Business;
 using Business.FakeForm;
-using Business;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Web.Pages.Account
+namespace WebApp.Pages.Account
 {
     public class RegistrationModel : PageModel
     {
