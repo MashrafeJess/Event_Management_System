@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Database;
 using Business;
 using Microsoft.AspNetCore.Mvc;
+using Database.ViewModel;
 
 namespace WebApp.Pages.Account
 {
@@ -11,7 +12,7 @@ namespace WebApp.Pages.Account
     public class DashboardModel : PageModel
     {
         public string IsLoggedInUser { get; set; }
-        public UserInfo CurrentUser { get; set; } 
+        public UserData CurrentUser { get; set; } 
 
         public IActionResult OnGet()
         {
@@ -24,14 +25,14 @@ namespace WebApp.Pages.Account
             }
 
             // Get user details from service
-            Result result = new UserService().Single(IsLoggedInUser);
+            Result result = new UserService().NewSingle(IsLoggedInUser);
 
             if (result.Data == null || !result.Success)
             {
                 return RedirectToPage("/Account/Unauthorized");
             }
 
-            CurrentUser = result.Data as UserInfo;
+            CurrentUser = result.Data as UserData;
             return Page();
         }
     }

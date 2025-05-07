@@ -19,7 +19,7 @@ namespace Business
         {
             try
             {
-                context.SaveChanges();
+                var x = context.SaveChanges();
                 return new Result(true, Message, Data);
             }
             catch (Exception ex)

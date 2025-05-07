@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace Database
 {
-    public class Package : BaseModel
+    public class MaxOrderLimit : BaseModel
     {
         [Key]
-        public int PackageId { get; set; }
-        public int? EventId {get; set;}
-        public int? SizeId { get; set; }
-        public int Price { get; set; }
+        public int MaxOrderId { get; set; }
+        public int? MaxOrder{ get; set; }
+
     }
 }

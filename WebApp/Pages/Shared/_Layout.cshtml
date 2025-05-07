@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebApp.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Pages/Shared/Layout.cshtml.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -29,15 +30,25 @@
                         <li class="nav-item">
                             <a class="nav-link active text-black" aria-current="page" asp-page="/Account/Dashboard">Dashboard</a>
                         </li>
-                        @if(role=="3")
+                        @if (role == "3")
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-black" asp-page="/Service/Order">Packages</a>
+                                <a class="nav-link text-black" asp-page="/Service/OrderTypeList">Packages</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-black" asp-page="/Service/Cart">Cart</a>
+                                <a class="nav-link text-black" asp-page="/Service/CartList">
+                                    <i class="bi bi-basket position-relative" style="font-size: 1.5rem;">
+                                        <span id="navbar-cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            0
+                                        </span>
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-black" asp-page="/Service/OrderTypeList">Packages</a>
                             </li>
                         }
+
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -56,8 +67,8 @@
                         @if (role == "1" || role == "2")
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown link
+                                <a class="nav-link dropdown-toggle text-black" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Options
                                 </a>
                                 <ul class="dropdown-menu">
                                     @if(role == "1")
@@ -67,6 +78,8 @@
                                     <li><a class="dropdown-item" asp-page="/EventInfo/EventList">Events</a></li>
                                     <li><a class="dropdown-item" asp-page="/EventInfo/SizeList">Event Types</a></li>
                                     <li><a class="dropdown-item" asp-page="/EventInfo/PackageList">Packages</a></li>
+                                    <li><a class="dropdown-item" asp-page="/EventInfo/AllOrderList">All Orders</a></li>
+                                    <li><a class="dropdown-item" asp-page="/EventInfo/MaxorderLimit" asp-route-Id="1">Set Order Limit</a></li>
                                 </ul>
                             </li>
 						}
@@ -81,7 +94,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted bg_color">
         <div class="container">
             &copy; 2024 - Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>

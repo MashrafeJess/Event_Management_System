@@ -13,7 +13,31 @@
         <h1>Welcome, @Model.CurrentUser.UserName!</h1>
         <!-- Display other user properties as needed -->
         <p>Email: @Model.CurrentUser.Email</p>
-        <p>Role: @Model.CurrentUser.Role</p>
+        <p>Role: @Model.CurrentUser.RoleName</p>
+		@if (Model.CurrentUser.RoleName == "Admin")
+		{
+			<p>You have admin privileges.</p>
+		}
+		else if (Model.CurrentUser.RoleName == "Maanger")
+		{
+			<p>You have manager privileges.</p>
+		}
+		else
+		{
+			<p>You are a reguler user.</p>
+		}
+		@if (Model.CurrentUser.IsActive == true)
+		{
+			<div class="alert alert-success">
+				Your account is active.
+			</div>
+		}
+		else
+		{
+			<div class="alert alert-danger">
+				Your account is inactive. Please contact support.
+			</div>
+		}
     }
     else
     {

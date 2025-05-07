@@ -25,3 +25,28 @@ body {
     background-color: aqua;
     border: 3px solid white;
 }
+  .mx_width{
+    font-family: 'Playwrite RO', sans-serif;
+  }
+  .bg_color{
+    background-color: white;
+  }
+ .shad{
+  text-shadow: 2px 2px burlywood;
+  background-color: aliceblue;
+  border : 2px solid wheat;
+  border-radius: 10px;
+ }
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.animate-bounce {
+    animation: bounce 0.4s ease;
+}

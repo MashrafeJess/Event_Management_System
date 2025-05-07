@@ -2,6 +2,7 @@
 using Database.Context;
 using Business.FakeForm;
 using Microsoft.AspNetCore.Identity;
+using Database.ViewModel;
 namespace Business
 {
     public class UserService
@@ -21,6 +22,7 @@ namespace Business
                     PasswordHash = new PasswordHasher<object>().HashPassword(form, form.Password),
                     PhoneNumber = form.PhoneNum,
                     Role = form.Role == 0 ? 3 : form.Role,
+                    IsActive = true,
                     CreatedBy = form.CreatedBy,
                     UpdatedDate =form.UpdatedDate,
                     UpdatedBy = form.UpdatedBy,
@@ -74,6 +76,16 @@ namespace Business
         public Result Single (string id)
         {
             UserInfo user = context.UserInfo.FirstOrDefault(u => u.UserId == id);
+            if (user == null)
+            {
+                return new Result(false, "User not found", null);
+            }
+
+            return new Result(true, "User found", user);
+        }
+        public Result NewSingle(string Id)
+        {
+            UserData user = context.UserData.FirstOrDefault(u => u.UserId == Id);
             if (user == null)
             {
                 return new Result(false, "User not found", null);

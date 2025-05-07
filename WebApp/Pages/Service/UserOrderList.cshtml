@@ -1,15 +1,17 @@
 ﻿@page
-@model WebApp.Pages.EventInfo.EventListModel
+@model WebApp.Pages.Service.UserOrderListModel
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<a class="btn btn-primary mb-3 " asp-area="" asp-page="/EventInfo/Events">Add New Event</a>
 
 <table class="table table-bordered table-hover">
     <thead class="table-dark">
         <tr>
             <th>Name</th>
-            <th>Author</th>
-            <th>Date</th>
-            <th>Action</th>
+            <th>Email</th>
+            <th>Event Name</th>
+            <th>Size Name</th>
+            <th>Price</th>
+            <th>Location</th>
+            <th>Event Date</th>
         </tr>
     </thead>
     <tbody>
@@ -18,15 +20,13 @@
             foreach (var item in Model.List)
             {
                 <tr>
+                    @* <td>@item.UserName</td> *@
+                    @* <td>@item.Email</td> *@
                     <td>@item.EventName</td>
-                    <td>@item.UserName</td>
-                    <td>@item.CreatedDate</td>
-                    <td>
-                        <a class="btn btn-sm btn-outline-primary" asp-page="/EventInfo/Events" asp-route-Id="@item.EventId">
-                            @* <i class="bi bi-pencil-square"></i> Edit *@
-                            <i class="bi bi-pen"></i>
-                        </a>
-                    </td>
+                    <td>@item.SizeName</td>
+                    <td>@item.Price tk</td>
+                    <td>@item.Location</td>
+                    <td>@item.EventDate</td>
                 </tr>
             }
         }

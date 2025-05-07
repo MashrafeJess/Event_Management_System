@@ -15,5 +15,6 @@ namespace Database
         public string ?PhoneNumber { get; set; }    
 
         public int Role { get; set; } 
+        public bool IsActive { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace Web
+namespace WebApp
 {
     public class Program
     {

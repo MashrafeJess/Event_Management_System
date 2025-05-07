@@ -9,7 +9,8 @@ namespace BusinessTest
     {
         static void Main(string[] args)
         {
-            RegistrationTest();
+            //RegistrationTest();
+            LoginTest();
         }
         #region UserService
         static void RegistrationTest()
