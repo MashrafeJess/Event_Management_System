@@ -75,15 +75,6 @@ public class CartService
         context.Cart.Remove(cart);
         return new Result().DBcommit(context, "Cart item deleted successfully", null, cart);
     }
-    public Result CartListByUser(string userId)
-    {
-        var cartList = context.Cart.Where(x => x.CreatedBy == userId).ToList();
-        if (cartList == null || cartList.Count == 0)
-        {
-            return new Result(false, "No items in the cart");
-        }
-        return new Result(true, "Cart items found", cartList);
-    }
     public Result GetCartById(int id)
     {
         var cart = context.Cart.FirstOrDefault(x => x.CartId == id);
@@ -91,14 +82,11 @@ public class CartService
             return new Result(false, "Cart item not found");
         return new Result(true, null, cart);
     }
-
-    public Result CompleteCartOrder(Cart cart, PrevOrders order)
+    public int GetCartCountByUserId(string userId)
     {
-        var preOrderService = new PrevOrderService();
-        var cartService = new CartService();
-        cartService.CartDelete(cart);
-        return new Result().DBcommit(context, "Added", null, order);
+        var cartList = context.Cart.Where(x => x.CreatedBy == userId).ToList();
+        int k = cartList.Count;
+        return k;
     }
-
 
 }

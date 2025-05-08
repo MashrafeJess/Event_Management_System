@@ -7,11 +7,13 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
+            <th>Phone Number</th>
             <th>Event Name</th>
             <th>Size Name</th>
             <th>Price</th>
             <th>Location</th>
             <th>Event Date</th>
+            <th>Purchase Date</th>
         </tr>
     </thead>
     <tbody>
@@ -20,13 +22,15 @@
             foreach (var item in Model.List)
             {
                 <tr>
-                    @* <td>@item.UserName</td> *@
-                    @* <td>@item.Email</td> *@
+                    <td>@item.UserName</td>
+                    <td>@item.Email</td>
+                    <td>@item.PhoneNumber</td>
                     <td>@item.EventName</td>
                     <td>@item.SizeName</td>
                     <td>@item.Price tk</td>
                     <td>@item.Location</td>
                     <td>@item.EventDate</td>
+                    <td>@item.CreatedDate</td>
                 </tr>
             }
         }

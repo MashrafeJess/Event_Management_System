@@ -20,6 +20,10 @@
                             <label for="Name" class="form-label">Name</label>
                             <input asp-for="@Model.model.EventName" class="form-control" id="Name" placeholder="Enter Event name" required />
                         </div>
+                        <div class="mb-3">
+                            <label for="Name" class="form-label">Image</label>
+                            <input asp-for="@Model.model.EventPic" class="form-control" id="Name" placeholder="Enter Event Picture Link" required />
+                        </div>
 
                         <button type="submit" class="btn btn-success w-100">
                             <i class="bi bi-check-circle me-1"></i> Save Changes

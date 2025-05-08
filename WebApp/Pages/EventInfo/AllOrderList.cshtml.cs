@@ -12,14 +12,14 @@ namespace WebApp.Pages.EventInfo
     public class AllOrderListModel : PageModel
     {
         [BindProperty]
-        public List<PrevOrders> List { get; set; } = new();
+        public List<OrderList> List { get; set; } = new();
         public void OnGet()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier);
-            Result results = new PrevOrderService().List();
+            Result results = new OrderListService().List();
             if (results.Success)
             {
-                List = results.Data as List<PrevOrders>;
+                List = results.Data as List<OrderList>;
             }
         }
     }

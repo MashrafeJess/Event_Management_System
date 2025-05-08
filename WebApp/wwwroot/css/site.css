@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=Cascadia+Code:ital,wght@0,200..700;1,200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+RO:wght@100..400&display=swap');
 html {
   font-size: 14px;
 }
@@ -49,4 +52,9 @@ body {
 
 .animate-bounce {
     animation: bounce 0.4s ease;
+}
+.img-fixed {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
 }

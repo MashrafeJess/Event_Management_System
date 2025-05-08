@@ -14,12 +14,12 @@
             <h2>Packages</h2>
         </div>
     </div>
-    <div class=" row justify-content-start mx-3 my-2 p-5 border border-3 bg_color">
+    <div class=" row justify-content-start my-2 p-5 border border-3 bg_color">
         @foreach(var item in Model.List)
         {
-            <div class="col-md-3 mb-3 text-center mx-3 ">
+            <div class="col-md-3 text-center d-flex align-items-stretch">
                 <div class="card shadow p-3 mb-5 bg-body-tertiary rounded" style="width: 18rem;">
-                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="No Image Found">
+                    <img src="@item.EventPic" class="card-img-top img-fixed" alt="No Image Found">
                     <div class="card-body">
                         <h5 class="card-title">@item.EventName</h5>
                         <p class="card-text">Click on select to arrange this event</p>

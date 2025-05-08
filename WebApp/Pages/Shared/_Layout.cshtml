@@ -2,6 +2,13 @@
 @{
     string role = User.Identity.IsAuthenticated ? User.FindFirst(ClaimTypes.Role)?.Value : null;
 }
+@inject CartService cartService
+
+@{
+    var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+    var cartCount = userId != null ? cartService.GetCartCountByUserId(userId) : 0;
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,17 +42,22 @@
                             <li class="nav-item">
                                 <a class="nav-link text-black" asp-page="/Service/OrderTypeList">Packages</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item position-relative">
                                 <a class="nav-link text-black" asp-page="/Service/CartList">
-                                    <i class="bi bi-basket position-relative" style="font-size: 1.5rem;">
-                                        <span id="navbar-cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            0
+                                    <i class="bi bi-basket" style="font-size: 1.5rem;"></i>
+                                    @if (cartCount > 0)
+                                    {
+                                        <span id="navbar-cart-count"
+                                              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            @cartCount
+                                            <span class="visually-hidden">cart items</span>
                                         </span>
-                                    </i>
+                                    }
                                 </a>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link text-black" asp-page="/Service/OrderTypeList">Packages</a>
+                                <a class="nav-link text-black" asp-page="/Service/OrderTypeList">Previous Orders</a>
                             </li>
                         }
 
