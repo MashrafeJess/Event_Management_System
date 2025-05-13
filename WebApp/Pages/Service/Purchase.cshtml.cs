@@ -41,20 +41,14 @@ namespace WebApp.Pages.Service
             return Page();
         }
 
-
-
-
-
         public IActionResult OnPost()
         {
-            // Check if the ModelState is valid
             if (!ModelState.IsValid)
             {
                 if (cart.PackageId > 0)
                 {
                     Result result = new PackageService().PackageInfoList(cart.PackageId);
                     package = result.Data as Package_UserInfo ?? new Package_UserInfo();
-                    // Debug: Check what package is fetched
                     Console.WriteLine($"PackageId: {cart.PackageId}, EventName: {package.EventName}, SizeName: {package.SizeName}, Price: {package.Price}");
                 }
                 return Page();
@@ -63,7 +57,6 @@ namespace WebApp.Pages.Service
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             cart.CreatedBy = userId;
 
-            // Load package info to copy into cart
             var packageResult = new PackageService().PackageInfoList(cart.PackageId);
             if (packageResult.Data is Package_UserInfo pkg)
             {
@@ -71,7 +64,6 @@ namespace WebApp.Pages.Service
                 cart.SizeName = pkg.SizeName;
                 cart.Price = pkg.Price.Value;
 
-                // Debug: Ensure package info is set
                 Console.WriteLine($"Cart EventName: {cart.EventName}, SizeName: {cart.SizeName}, Price: {cart.Price}");
             }
 

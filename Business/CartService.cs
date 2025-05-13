@@ -14,10 +14,14 @@ public class CartService
         {
             return new Result(false, "Max order limit not found");
         }
-
+        bool x = context.OrderList.Any(x => x.EventDate == cart.EventDate);
+        if(x)
+        {
+            return new Result(false, "This date is already booked");
+        }
         MaxOrderLimit limit = result.Data as MaxOrderLimit;
 
-        bool alreadyExists = context.Cart.Any(x => x.PackageId == cart.PackageId && x.CreatedBy == cart.CreatedBy);
+        bool alreadyExists = context.Cart.Any(x => x.PackageId == cart.PackageId && x.CreatedBy == cart.CreatedBy );
         if (alreadyExists)
         {
             return new Result(false, "You have already added this package to your cart.");

@@ -1,10 +1,11 @@
 using System.Security.Claims;
 using Business;
 using Database;
+using Database.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Database.ViewModel;
+
 namespace WebApp.Pages.Service
 {
     [Authorize(Roles = "3")]
@@ -12,13 +13,25 @@ namespace WebApp.Pages.Service
     {
         [BindProperty]
         public List<OrderList> List { get; set; } = new();
-        public void OnGet()
+
+        public void OnGet(DateTime? startDate, DateTime? endDate)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier);
-            Result results = new OrderListService().Single(userId.Value);
-            if (results.Success)
+            string Id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            Result result;
+
+            if (startDate.HasValue && endDate.HasValue)
             {
-                List = results.Data as List<OrderList>;
+                result = new OrderListService().SpecificUserDate(Id, startDate.Value, endDate.Value);
+            }
+            else
+            {
+                result = new OrderListService().Single(Id);
+            }
+
+            if (result != null && result.Success)
+            {
+                List = result.Data as List<OrderList>;
             }
         }
     }

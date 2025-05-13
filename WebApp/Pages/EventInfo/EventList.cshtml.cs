@@ -20,5 +20,25 @@ namespace WebApp.Pages.EventInfo
                 List = results.Data as List<Event_UserInfo>;
             }
         }
+        public IActionResult OnPostDeleteEvent(int? id)
+        {
+            Result result = null;
+
+            if (id != null)
+            {
+                result = new EventService().EventDelete(id.Value);
+            }
+
+            if (result != null && result.Success)
+            {
+                return RedirectToPage("/EventInfo/EventList");
+            }
+            else
+            {
+                return Page();
+            }
+        }
+
+
     }
 }

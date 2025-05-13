@@ -18,9 +18,9 @@ namespace Business
         public Result UpdateEvent(Events model)
         {
             bool x = context.Events.Any(x => x.EventName == model.EventName);
-            if (!x)
+            if (x)
             {
-                return new Result(false, "This size is not found");
+                return new Result(false, "This event is already in use");
             }
 
             context.Events.Update(model);
@@ -52,6 +52,16 @@ namespace Business
         {
             var model = context.Events.FirstOrDefault(x => x.EventId == id);
             return new Result(true, "Sizes found", model);
+        }
+        public Result EventDelete(int id)
+        {
+            var model = context.Events.Where(x => x.EventId == id).FirstOrDefault();
+            if(model == null)
+            {
+                return new Result(false, "This event is not found");
+            }
+            context.Remove(model);
+            return new Result().DBcommit(context, "This event was deleted successfully", null);
         }
     }
 }
