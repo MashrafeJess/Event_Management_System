@@ -61,5 +61,43 @@ namespace Business.Services
                 return new Result(false, $"Failed to send email: {ex.Message}");
             }
         }
+        public Result SendPasswordResetEmail(string toEmail, string userName, string resetLink)
+        {
+            try
+            {
+                var host = _config["SmtpSettings:Host"];
+                var port = int.Parse(_config["SmtpSettings:Port"]);
+                var username = _config["SmtpSettings:Username"];
+                var password = _config["SmtpSettings:Password"];
+
+                var email = new MimeMessage();
+                email.From.Add(MailboxAddress.Parse(username));
+                email.To.Add(MailboxAddress.Parse(toEmail));
+                email.Subject = "Password Reset Request";
+
+                var body = $@"
+            <h2>Password Reset</h2>
+            <p>Hi {userName},</p>
+            <p>We received a request to reset your password. Click the link below to choose a new one:</p>
+            <p><a href='{resetLink}' target='_blank'>Reset Password</a></p>
+            <p>If you didn’t request this, please ignore this email.</p>
+            <p>Best regards,<br/>Event Management Team</p>";
+
+                email.Body = new TextPart(TextFormat.Html) { Text = body };
+
+                using var smtp = new SmtpClient();
+                smtp.Connect(host, port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(username, password);
+                smtp.Send(email);
+                smtp.Disconnect(true);
+
+                return new Result(true, $"Password reset email sent to {toEmail}");
+            }
+            catch (Exception ex)
+            {
+                return new Result(false, $"Failed to send password reset email: {ex.Message}");
+            }
+        }
+
     }
 }
