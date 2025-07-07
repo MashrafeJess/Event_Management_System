@@ -24,16 +24,16 @@ namespace Business
             }
 
             context.Events.Update(model);
-            return new Result().DBcommit(context, "Size updated successfully", null, model);
+            return new Result().DBcommit(context, "Event updated successfully", null, model);
         }
         public Result List()
         {
             var events = context.Events.ToList();
             if (events.Count == 0)
             {
-                return new Result(false, "No sizes found");
+                return new Result(false, "No event found");
             }
-            return new Result(true, "Sizes found", events);
+            return new Result(true, "Events found", events);
         }
         public Result ListWithCreators()
         {
@@ -51,7 +51,7 @@ namespace Business
         public Result Single(int id)
         {
             var model = context.Events.FirstOrDefault(x => x.EventId == id);
-            return new Result(true, "Sizes found", model);
+            return new Result(true, "Events found", model);
         }
         public Result EventDelete(int id)
         {

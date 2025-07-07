@@ -22,7 +22,7 @@ namespace WebApp.Pages.Service
         public IActionResult OnPostDone(int id)
         {
             var service = new CartService();
-            var prevOrderService = new PrevOrderService();
+            //var prevOrderService = new PrevOrderService();
 
             // Get cart item by id
             var cartResult = service.GetCartById(id);
@@ -30,34 +30,34 @@ namespace WebApp.Pages.Service
                 return Page();
 
             // Create the order from cart item
-            var order = new PrevOrders
-            {
-                EventName = cartItem.EventName,
-                SizeName = cartItem.SizeName,
-                Price = cartItem.Price,
-                Location = cartItem.Location,
-                EventDate = cartItem.EventDate ?? DateTime.Now,
-                UserId = cartItem.CreatedBy,
-                CreatedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-            };
+            //var order = new PrevOrders
+            //{
+            //    EventName = cartItem.EventName,
+            //    SizeName = cartItem.SizeName,
+            //    Price = cartItem.Price,
+            //    Location = cartItem.Location,
+            //    EventDate = cartItem.EventDate ?? DateTime.Now,
+            //    UserId = cartItem.CreatedBy,
+            //    CreatedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+            //};
 
             // Save order first
-            var orderResult = prevOrderService.AddPrevOrder(order);
+            //var orderResult = prevOrderService.AddPrevOrder(order);
 
-            if (orderResult.Success)
-            {
-                // If successful, delete cart
-                var deleteResult = service.CartDelete(cartItem);
-                if (deleteResult.Success)
-                {
-                    TempData["Success"] = "Order placed successfully!";
-                    return RedirectToPage(); // Refresh page
-                }
-                else
-                {
-                    TempData["Error"] = "Order saved, but cart delete failed.";
-                }
-            }
+            //if (orderResult.Success)
+            //{
+            //    // If successful, delete cart
+            //    var deleteResult = service.CartDelete(cartItem);
+            //    if (deleteResult.Success)
+            //    {
+            //        TempData["Success"] = "Order placed successfully!";
+            //        return RedirectToPage(); // Refresh page
+            //    }
+            //    else
+            //    {
+            //        TempData["Error"] = "Order saved, but cart delete failed.";
+            //    }
+            //}
             else
             {
                 TempData["Error"] = "Order creation failed.";

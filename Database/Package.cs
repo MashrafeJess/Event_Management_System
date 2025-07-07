@@ -12,7 +12,7 @@ namespace Database
         [Key]
         public int PackageId { get; set; }
         public int? EventId {get; set;}
-        public int? SizeId { get; set; }
-        public int Price { get; set; }
+        public int? StandardId { get; set; }
+        public string? PackageName { get; set; }
     }
 }

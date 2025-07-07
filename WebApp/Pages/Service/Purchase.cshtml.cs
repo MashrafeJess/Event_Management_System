@@ -60,22 +60,22 @@ namespace WebApp.Pages.Service
             var packageResult = new PackageService().PackageInfoList(cart.PackageId);
             if (packageResult.Data is Package_UserInfo pkg)
             {
-                cart.EventName = pkg.EventName;
-                cart.SizeName = pkg.SizeName;
+            //    cart.EventName = pkg.EventName;
+            //    cart.SizeName = pkg.SizeName;
                 cart.Price = pkg.Price.Value;
 
-                Console.WriteLine($"Cart EventName: {cart.EventName}, SizeName: {cart.SizeName}, Price: {cart.Price}");
+                //Console.WriteLine($"Cart EventName: {cart.EventName}, SizeName: {cart.SizeName}, Price: {cart.Price}");
             }
 
-            var cartService = new CartService();
-            if (cart.CartId == null || cart.CartId == 0)
-            {
-                cartService.AddCart(cart);
-            }
-            else
-            {
-                cartService.UpdateCart(cart);
-            }
+            //var cartService = new CartService();
+            //if (cart.CartId == null || cart.CartId == 0)
+            //{
+            //    cartService.AddCart(cart);
+            //}
+            //else
+            //{
+            //    cartService.UpdateCart(cart);
+            //}
 
             return RedirectToPage("/Service/CartList");
         }

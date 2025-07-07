@@ -13,7 +13,7 @@ namespace Business
         EventContext context = new EventContext();
         public Result AddPackage(Package package)
         {
-            bool x = context.Package.Any(x=>x.EventId == package.EventId && x.SizeId == package.SizeId);
+            bool x = context.Package.Any(x=>x.PackageName == package.PackageName);
             if(x)
             {
                 return new Result(false, "This Package exists");
@@ -23,10 +23,15 @@ namespace Business
         }
         public Result UpdatePackage(Package package)
         {
-            bool x = context.Package.Any(x => x.EventId == package.EventId && x.SizeId == package.SizeId);
+            bool x = context.Package.Any(x => x.PackageId == package.PackageId);
             if (!x)
             {
                 return new Result(false, "This Package is not found");
+            }
+            bool y = context.Package.Any(x => x.PackageName == package.PackageName && x.PackageId != package.PackageId);
+            if (y)
+            {
+                return new Result(false, "This Package of certain name already exists");
             }
             context.Package.Update(package);
             return new Result().DBcommit(context, "Package updated successfully", null, package);

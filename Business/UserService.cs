@@ -47,17 +47,18 @@ namespace Business
                 return new Result(false, "Incorrect Password");
             }
         }
-        public Result Update(UserInfo userInfo)
+        public Result Update(MockForm form)
         {
-            UserInfo user = context.UserInfo.FirstOrDefault(u => u.UserId == userInfo.UserId);
+            UserInfo user = context.UserInfo.FirstOrDefault(u => u.Email == form.Email);
             if (user == null)
             {
                 return new Result(false, "User not found", null);
             }
-            user.UserName = userInfo.UserName;
-            user.Email = userInfo.Email;
-            user.PhoneNumber = userInfo.PhoneNumber;
-            user.Role = userInfo.Role;
+            user.UserName = form.UserName;
+            user.Email = form.Email;
+            user.PasswordHash = new PasswordHasher<object>().HashPassword(form, form.Password);
+            user.PhoneNumber = form.PhoneNum;
+            user.Role = form.Role;
             user.UpdatedDate = DateTime.Now;
             return new Result().DBcommit(context, "User info updated successfully", null, user);
         }

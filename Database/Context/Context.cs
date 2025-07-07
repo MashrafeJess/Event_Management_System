@@ -17,13 +17,18 @@ namespace Database.Context
 
         public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<Role> Role { get; set; }
-        public DbSet<EventSize> EventSize{ get; set; }
         public DbSet<Events> Events { get; set; }
+        public DbSet<Standard> Standard { get; set; }
         public DbSet<Package> Package { get; set; }
+        public DbSet<Offers> Offers { get; set; }
+        public DbSet<Image> Image { get; set; }
+        public DbSet<AddOns> AddOns { get; set; }
         public DbSet<Cart> Cart { get; set; }
-        public DbSet<MaxOrderLimit> MaxOrderLimit { get; set; }
-        public DbSet<PrevOrders> PrevOrders { get; set; }
-
+        public DbSet<Payment> Payment { get; set; }
+        public DbSet<PaymentMethod> PaymentMethod { get; set; }
+        public DbSet<PaymentAddOn> PaymentAddOn { get; set; }
+        public DbSet<OrderStatus> OrderStatus { get; set; }
+        public DbSet<Top10Images> Top10Images { get; set; } 
 
 
         public DbSet<UserData> UserData { get; set; }
@@ -31,6 +36,7 @@ namespace Database.Context
         public DbSet<EventSize_UserInfo> EventSize_UserInfo { get; set; }
         public DbSet<Package_UserInfo> Package_UserInfo { get; set; }
         public DbSet<OrderList> OrderList { get; set; }
+        public DbSet<PaymentAddOnView> PaymentAddOnView { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

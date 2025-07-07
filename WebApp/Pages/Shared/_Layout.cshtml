@@ -1,6 +1,7 @@
 ﻿﻿@using System.Security.Claims
 @{
     string role = User.Identity.IsAuthenticated ? User.FindFirst(ClaimTypes.Role)?.Value : null;
+    bool isAuthenticated = User.Identity.IsAuthenticated;
 }
 @inject CartService cartService
 
@@ -24,94 +25,110 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid ">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse mx-auto header-bgnav" id="navbarNavDropdown">
-                    <ul class="navbar-nav d-flex justify-content-evenly w-100">
-                        <li class="nav-item">
-                            <a class="nav-link active text-black" aria-current="page" asp-page="/Index">Homepage</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-black" aria-current="page" asp-page="/Account/Dashboard">Dashboard</a>
-                        </li>
-                        @if (role == "3")
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-black" asp-page="/Service/OrderTypeList">Packages</a>
-                            </li>
-                            <li class="nav-item position-relative">
-                                <a class="nav-link text-black" asp-page="/Service/CartList">
-                                    <i class="bi bi-basket" style="font-size: 1.5rem;"></i>
-                                    @if (cartCount > 0)
-                                    {
-                                        <span id="navbar-cart-count"
-                                              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            @cartCount
-                                            <span class="visually-hidden">cart items</span>
-                                        </span>
-                                    }
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-black" asp-page="/Service/UserOrderList">Previous Orders</a>
-                            </li>
-                        }
-
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-black">@User.Identity.Name</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-black"asp-page="/Account/Login" asp-page-handler="Logout">Logout</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-black" asp-area="" asp-page="/Account/Login">Login</a>
-                            </li>
-                        }
-                        @if (role == "1" || role == "2")
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-black" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Options
-                                </a>
-                                <ul class="dropdown-menu">
-                                    @if(role == "1")
-                                    {
-                                        <li><a class="dropdown-item" asp-page="/Account/ExecutiveRegistration">Add Executive</a></li>
-                                    }
-                                    <li><a class="dropdown-item" asp-page="/EventInfo/EventList">Events</a></li>
-                                    <li><a class="dropdown-item" asp-page="/EventInfo/SizeList">Event Types</a></li>
-                                    <li><a class="dropdown-item" asp-page="/EventInfo/PackageList">Packages</a></li>
-                                    <li><a class="dropdown-item" asp-page="/EventInfo/AllOrderList">All Orders</a></li>
-                                    <li><a class="dropdown-item" asp-page="/EventInfo/MaxorderLimit" asp-route-Id="1">Set Order Limit</a></li>
-                                </ul>
-                            </li>
-						}
-                    </ul>
-                </div>
-            </div>
-        </nav>
+       
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
+    <nav class="navbar bg-dark border-bottom border-body sticky-top" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-page="/Index">WeddingVerse</a>
+            <div class="d-flex align-items-center text-light ms-auto">
+                @if(isAuthenticated)
+                {
+                    <div class="px-3">@User.Identity.Name</div>
+                    <div class="px-3" asp-page="/Account/Login" asp-page-handler="Logout">Log Out</div>
+                }
+                else
+                {
+                    <div class="px-3" asp-page="/Account/Login">Log In</div>
+				}
+            </div>
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active text-black" aria-current="page" asp-page="/Index">Homepage</a>
+                    </li>
+                    @if(isAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Account/Dashboard">Dashboard</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Account/Login">Log In</a>
+                        </li>
+                    }
+                    @if(isAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="#">Account Settings</a>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Offers</a>
+                    </li>
+                    @if(isAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Book an Appointment</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Account/Login">Book an Appointment</a>
+                        </li>
+                    }
+                    @if(isAuthenticated && (role == "1" || role== "2"))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                Settings
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/EventInfo/EventList">Add Events</a></li>
+                                <li><a class="dropdown-item" href="/EventInfo/PackageList">Add Packages</a></li>
+                                <li><a class="dropdown-item" href="/EventInfo/OfferList">Add Offer</a></li>
+                                <li><a class="dropdown-item" href="/EventInfo/AllOrderList">All Orders</a></li>
+                                <li><a class="dropdown-item" href="/EventInfo/StandarList">Add Standard</a></li>
+                                @if(role == "1")
+                                {
+                                    <li><a class="dropdown-item" href="/Account/AddminsAccess">Admins Access</a></li>
+								}
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
     <footer class="border-top footer text-muted bg_color">
         <div class="container">
             &copy; 2024 - Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
         <div class="container">
-            <p class="text-blue">developed by Burhan</p>
+            <p class="text-blue">developed by Mashrafe</p>
         </div>
     </footer>
 

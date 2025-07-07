@@ -1,52 +1,43 @@
 ﻿using Business;
 using Database;
 using Database.Context;
-
+using Microsoft.EntityFrameworkCore;
 public class CartService
 {
-    private readonly EventContext context = new EventContext();
+    EventContext context = new EventContext();
 
     public Result AddCart(Cart cart)
     {
-        var result = new MaxOrderLimitService().GetLimit(1);
-
-        if (!result.Success)
-        {
-            return new Result(false, "Max order limit not found");
-        }
-        bool x = context.OrderList.Any(x => x.EventDate == cart.EventDate);
-        if(x)
-        {
-            return new Result(false, "This date is already booked");
-        }
-        MaxOrderLimit limit = result.Data as MaxOrderLimit;
-
-        bool alreadyExists = context.Cart.Any(x => x.PackageId == cart.PackageId && x.CreatedBy == cart.CreatedBy );
+        bool alreadyExists = context.Cart.Any(x => x.PackageId == cart.PackageId && x.CreatedBy == cart.CreatedBy && x.EventDate==cart.EventDate);
         if (alreadyExists)
         {
             return new Result(false, "You have already added this package to your cart.");
         }
-
-        if (limit.MaxOrder <= 0)
-        {
-            return new Result(false, "Order limit reached. Please try again later.");
-        }
-        limit.MaxOrder--;
-        limit.UpdatedBy = cart.CreatedBy;
-        limit.UpdatedDate = DateTime.Now;
-
-        context.MaxOrderLimit.Update(limit);
-
         context.Cart.Add(cart);
-
         return new Result().DBcommit(context, "Package added to cart successfully", null, cart);
     }
     public Result UpdateCart(Cart cart)
     {
-        var existingCart = context.Cart.FirstOrDefault(x => x.CartId == cart.CartId);
+        var existingCart = context.Cart.Include(c => c.Extra).FirstOrDefault(x => x.CartId == cart.CartId);
         if (existingCart == null)
         {
             return new Result(false, "Cart item not found");
+        }
+        var alreadyExists = existingCart.Extra.Select(x=>x.AddOnId).ToList();
+        var incomingAddOnIds = cart.Extra?.Select(e => e.AddOnId).ToList() ?? new();
+        var toRemove = existingCart.Extra
+            .Where(e => !incomingAddOnIds.Contains(e.AddOnId))
+            .ToList();
+
+        foreach (var item in toRemove)
+            existingCart.Extra.Remove(item);
+        var toAdd = incomingAddOnIds
+            .Where(id => !alreadyExists.Contains(id))
+            .ToList();
+
+        foreach (var id in toAdd)
+        {
+            existingCart.Extra.Add(new CartAddOn { AddOnId = id });
         }
         context.Cart.Update(existingCart);
         return new Result().DBcommit(context, "Cart updated successfully", null, existingCart);

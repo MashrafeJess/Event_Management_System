@@ -26,18 +26,18 @@
 
                         <div class="mb-3">
                             <label for="SizeSelect" class="form-label">Size</label>
-                            <select asp-for="@Model.model.SizeId" class="form-control" id="SizeSelect" required>
+                            @* <select asp-for="@Model.model.SizeId" class="form-control" id="SizeSelect" required> *@
                                 <option value="">Select an Event Type</option>
-                                @foreach (var item in Model.sizes)
+                                @* @foreach (var item in Model.sizes)
                                 {
                                     <option value="@item.SizeId">@item.SizeName</option>
-                                }
+                                } *@
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label for="Price" class="form-label">Price</label>
-                            <input asp-for="@Model.model.Price" class="form-control" id="Price" placeholder="Enter Price Value" required />
+                            @* <input asp-for="@Model.model.Price" class="form-control" id="Price" placeholder="Enter Price Value" required /> *@
                         </div>
 
                         <button type="submit" class="btn btn-success w-100">
