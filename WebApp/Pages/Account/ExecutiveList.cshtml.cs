@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebApp.Pages.EventInfo
+namespace WebApp.Pages.Account
 {
-    public class ImageListModel : PageModel
+    public class ExecutiveListModel : PageModel
     {
         public void OnGet()
         {

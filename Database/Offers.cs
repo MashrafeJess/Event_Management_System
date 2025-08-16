@@ -12,8 +12,7 @@ namespace Database
     {
         [Key]
         public int OfferId { get; set; }
-        public int? EventId { get; set; }
-        public int? StandardId { get; set; }
+        public int EventId { get; set; }
         public int? PackageId { get; set; }
         [Required]
         public string? OfferName { get; set; }
@@ -21,6 +20,5 @@ namespace Database
         public string? OfferDescription { get; set; }
         [Required]
         public int? OfferPrice { get; set; }
-        public ICollection<Image>? OfferImage { get; set; }
     }
 }

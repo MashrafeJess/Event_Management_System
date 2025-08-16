@@ -1,16 +1,17 @@
 ﻿@page
 @model WebApp.Pages.EventInfo.PackageListModel
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<a class="btn btn-primary mb-3 " asp-area="" asp-page="/EventInfo/Package">Add New Package</a>
+<a class="btn btn-primary mb-3 mt-5 " asp-area="" asp-page="/EventInfo/Package">Add New Package</a>
 
 <table class="table table-bordered table-hover">
     <thead class="table-dark">
         <tr>
-            <th>Event Name</th>
-            <th>Event Type</th>
+            <th>Sl.</th>
+            <th>Package Name</th>
+            <th>Creator</th>
             <th>Editor</th>
-            <th>Price</th>
-            <th>Date</th>
+            <th>Created Date</th>
+            <th>Updated Date</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -20,11 +21,12 @@
             foreach (var item in Model.List)
             {
                 <tr>
-                    <td>@item.EventName</td>
-                    <td>@item.SizeName</td>
-                    <td>@item.UserName</td>
-                    <td>@item.Price tk</td>
+                    <td>@item.PackageId</td>
+                    <td>@item.PackageName</td>
+					<td>@item.CreatedByName</td>
                     <td>@item.CreatedDate</td>
+                    <td>@item.UpdatedByName</td>
+					<td>@item.UpdatedDate</td>
                     <td>
                         <a class="btn btn-sm btn-outline-primary" asp-page="/EventInfo/Package" asp-route-Id="@item.PackageId">
                             @* <i class="bi bi-pencil-square"></i> Edit *@

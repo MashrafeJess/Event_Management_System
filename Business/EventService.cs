@@ -1,5 +1,7 @@
 ﻿using Database;
 using Database.Context;
+using Microsoft.CodeAnalysis.FlowAnalysis;
+using Microsoft.EntityFrameworkCore;
 namespace Business
 {
     public class EventService
@@ -15,16 +17,31 @@ namespace Business
             context.Events.Add(model);
             return new Result().DBcommit(context, "Event added successfully", null, model);
         }
-        public Result UpdateEvent(Events model)
+        public Result UpdateEvent(Events eventModel)
         {
-            bool x = context.Events.Any(x => x.EventName == model.EventName);
-            if (x)
+            Events existingEvent = context.Events.FirstOrDefault(x => x.EventId == eventModel.EventId);
+            if (existingEvent == null)
             {
-                return new Result(false, "This event is already in use");
+                return new Result(false, "Event not found");
             }
 
-            context.Events.Update(model);
-            return new Result().DBcommit(context, "Event updated successfully", null, model);
+            // Detach the existing tracked entity to avoid conflicts
+            context.Entry(existingEvent).State = EntityState.Detached;
+            if (string.IsNullOrEmpty(eventModel.EventName))
+            {
+                eventModel.EventName = existingEvent.EventName; 
+            }
+            if (eventModel.StandardId==0)
+            {
+                eventModel.EventName = existingEvent.EventName;
+            }
+            if (string.IsNullOrEmpty(eventModel.CreatedBy))
+            {
+                eventModel.CreatedBy = existingEvent.CreatedBy;
+            }
+            // Now, attach the new model and set its state
+            context.Events.Update(eventModel);
+            return new Result().DBcommit(context, "Event added successfully", null, eventModel);
         }
         public Result List()
         {

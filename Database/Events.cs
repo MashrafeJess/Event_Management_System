@@ -13,6 +13,5 @@ namespace Database
         public int EventId { get; set; }
         public int StandardId { get; set; }
         public string? EventName { get; set; }
-        public string? EventPic { get; set; }
     }
 }

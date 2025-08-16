@@ -2,9 +2,10 @@ using Business;
 using Business.FakeForm;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Microsoft.AspNetCore.Authorization;
 namespace WebApp.Pages.Account
 {
+    [AllowAnonymous]
     public class RegistrationModel : PageModel
     {
         [BindProperty]

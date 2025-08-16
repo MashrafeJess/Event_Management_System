@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Business;
 using Business.FakeForm;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebApp.Pages.Account
 {
+    [AllowAnonymous]
     public class LoginModel : PageModel
     {
         [BindProperty]

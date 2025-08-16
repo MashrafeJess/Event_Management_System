@@ -14,30 +14,8 @@
                         <input type="hidden" asp-for="@Model.model.PackageId" />
 
                         <div class="mb-3">
-                            <label for="EventSelect" class="form-label">Event</label>
-                            <select asp-for="@Model.model.EventId" class="form-control" id="EventSelect" required>
-                                <option value="">Select an Event</option>
-                                @foreach (var item in Model.events)
-                                {
-                                    <option value="@item.EventId">@item.EventName</option>
-                                }
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="SizeSelect" class="form-label">Size</label>
-                            @* <select asp-for="@Model.model.SizeId" class="form-control" id="SizeSelect" required> *@
-                                <option value="">Select an Event Type</option>
-                                @* @foreach (var item in Model.sizes)
-                                {
-                                    <option value="@item.SizeId">@item.SizeName</option>
-                                } *@
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="Price" class="form-label">Price</label>
-                            @* <input asp-for="@Model.model.Price" class="form-control" id="Price" placeholder="Enter Price Value" required /> *@
+                            <label for="Name" class="form-label">Name</label>
+                            <input asp-for="@Model.model.PackageName" class="form-control" id="Name" placeholder="Enter Package Name" required />
                         </div>
 
                         <button type="submit" class="btn btn-success w-100">

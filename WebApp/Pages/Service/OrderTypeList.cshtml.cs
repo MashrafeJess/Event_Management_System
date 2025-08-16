@@ -9,14 +9,14 @@ namespace WebApp.Pages.Service
     [Authorize(Roles = "3")]
     public class OrderModel : PageModel
     {
-        public List<Events> List { get; set; } = new();
-        public void OnGet()
-        {
-            Result results = new EventService().List();
-            if (results.Success)
-            {
-                List = results.Data as List<Events>;
-            }
-        }
+        //public List<Events> List { get; set; } = new();
+        //public void OnGet()
+        //{
+        //    Result results = new EventService().List();
+        //    if (results.Success)
+        //    {
+        //        List = results.Data as List<Events>;
+        //    }
+        //}
     }
 }

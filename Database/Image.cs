@@ -10,8 +10,8 @@ namespace Database
     public class Image : BaseModel
     {
         [Key]
-        public int ImageId { get; set; }
-        public int? OfferId { get; set; }
+        public int ImageId { get; set; } 
+        public int? EventId { get; set; }
         public string? ImagePath { get; set; }
         public string? ImageHash { get; set; }
     }

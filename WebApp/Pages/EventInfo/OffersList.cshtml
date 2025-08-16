@@ -1,0 +1,65 @@
+﻿@page
+@model WebApp.Pages.EventInfo.OffersListModel
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<a class="btn btn-primary mb-3 mt-5 " asp-area="" asp-page="/EventInfo/Offers">Add New Offer</a>
+
+<table class="table table-bordered table-hover">
+	<thead class="table-dark">
+		<tr>
+			<th>Sl.</th>
+			<th>Offer Name</th>
+			<th>Offer Description</th>
+			<th>Offer Price</th>
+			<th>Event Name</th>
+			<th>Package Name </th>
+			<th>Creator</th>
+			<th>Created Date</th>
+			<th>Editor</th>
+			<th>Updated Date</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.List != null && Model.List.Any())
+		{
+			foreach (var item in Model.List)
+			{
+				<tr>
+					<td>@item.OfferId</td>
+					<td>@item.OfferName</td>
+					<td>
+						<p class="d-inline-flex gap-1">
+							<button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+								Offer Details
+							</button>
+						</p>
+						<div class="collapse" id="collapseExample">
+							<div class="card card-body" style="white-space: pre-line;">
+								@item.OfferDescription
+							</div>
+						</div>
+					</td>
+					<td>@(item.OfferPrice.HasValue? item.OfferPrice.Value.ToString("N0") : "")</td>
+					<td>@item.EventName</td>
+					<td>@item.PackageName</td>
+					<td>@item.CreatedByName</td>
+					<td>@item.CreatedDate</td>
+					<td>@item.UpdatedByName</td>
+					<td>@item.UpdatedDate</td>
+					<td>
+						<a class="btn btn-sm btn-outline-primary" asp-page="/EventInfo/Offers" asp-route-Id="@item.OfferId">
+							@* <i class="bi bi-pencil-square"></i> Edit *@
+							<i class="bi bi-pen"></i>
+						</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="5" class="text-center">No Packages available.</td>
+			</tr>
+		}
+	</tbody>
+</table>

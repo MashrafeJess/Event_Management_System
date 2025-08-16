@@ -13,8 +13,8 @@ namespace Business
         EventContext context = new EventContext();
         public Result AddPackage(Package package)
         {
-            bool x = context.Package.Any(x=>x.PackageName == package.PackageName);
-            if(x)
+            bool x = context.Package.Any(x => x.PackageName == package.PackageName);
+            if (x)
             {
                 return new Result(false, "This Package exists");
             }
@@ -47,22 +47,17 @@ namespace Business
         }
         public Result Single (int id)
         {
-            var package = context.Package.FirstOrDefault(x=>x.EventId == id);
+            var package = context.Package.FirstOrDefault(x=>x.PackageId == id);
             return new Result(true, "Package found", package);  
         }
         public Result PackageNewList()
         {
-            var packages = context.Package_UserInfo.ToList();
+            var packages = context.Package_User.ToList();
             return new Result(true, "Packages found", packages);
         }
-        public Result Multiple(int id)
+        public Result PackageInfoList(int Id)
         {
-            var packages = context.Package_UserInfo.Where(x => x.EventId == id).ToList();
-            return new Result(true, "Packages found", packages);
-        }
-        public Result PackageInfoList (int Id)
-        {
-            var package = context.Package_UserInfo.FirstOrDefault(x => x.PackageId == Id);
+            var package = context.Package_User.FirstOrDefault(x => x.PackageId == Id);
             return new Result(true, "Package found", package);
         }
     }

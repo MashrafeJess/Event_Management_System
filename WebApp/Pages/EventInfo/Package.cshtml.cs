@@ -12,7 +12,6 @@ namespace WebApp.Pages.EventInfo
     {
         [BindProperty]
         public Package model { get; set; } = new();
-        public List<Events> events { get; set; } = new();
         //public List<EventSize> sizes { get; set; } = new();
         public void OnGet(int? Id = null)
         {
@@ -21,7 +20,6 @@ namespace WebApp.Pages.EventInfo
                 Result result = new PackageService().Single(Id.Value);
                 model = result.Data as Package;
             }
-            events = new EventService().List().Data as List<Events>;
             //sizes = new SizeService().List().Data as List<EventSize>;
         }
         public IActionResult OnPost()
@@ -38,7 +36,6 @@ namespace WebApp.Pages.EventInfo
                 model.UpdatedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 result = new PackageService().UpdatePackage(model);
             }
-            events = new EventService().List().Data as List<Events>;
             //sizes = new SizeService().List().Data as List<EventSize>;
             if (result.Success)
                 return RedirectToPage("/EventInfo/PackageList");

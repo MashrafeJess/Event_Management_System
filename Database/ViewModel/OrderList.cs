@@ -4,7 +4,7 @@ namespace Database.ViewModel
     public class OrderList
     {
         [Key]
-        public string OrderId { get; set; }
+        public string? OrderId { get; set; }
         public string? UserId { get; set; }
         public string? UserName { get; set; }
         public string? Email { get; set; }

@@ -1,8 +1,9 @@
-﻿using Database;
+﻿using Business.FakeForm;
+using Database;
 using Database.Context;
-using Business.FakeForm;
-using Microsoft.AspNetCore.Identity;
 using Database.ViewModel;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 namespace Business
 {
     public class UserService
@@ -54,13 +55,35 @@ namespace Business
             {
                 return new Result(false, "User not found", null);
             }
-            user.UserName = form.UserName;
-            user.Email = form.Email;
-            user.PasswordHash = new PasswordHasher<object>().HashPassword(form, form.Password);
-            user.PhoneNumber = form.PhoneNum;
-            user.Role = form.Role;
+
+            // Update only if provided (not null or empty)
+            if (!string.IsNullOrEmpty(form.UserName))
+                user.UserName = form.UserName;
+
+            if (!string.IsNullOrEmpty(form.Email))
+                user.Email = form.Email;
+
+            if (!string.IsNullOrEmpty(form.Password))
+                user.PasswordHash = new PasswordHasher<object>().HashPassword(form, form.Password);
+
+            if (!string.IsNullOrEmpty(form.PhoneNum))
+                user.PhoneNumber = form.PhoneNum;
+
+            user.Role = form.Role == 0 ? 3 : form.Role;
+
             user.UpdatedDate = DateTime.Now;
+            user.UpdatedBy = form.UpdatedBy;
+
             return new Result().DBcommit(context, "User info updated successfully", null, user);
+        }
+        public Result ResetInfo(FakeLoginForm form)
+        {
+            UserInfo user = context.UserInfo.FirstOrDefault(u => u.Email == form.Email);
+            if (user == null)
+            {
+                return new Result(false, "User not found", null);
+            }
+            return new Result(true, "Success", user.UserName);
         }
         public Result List(int role)
         {

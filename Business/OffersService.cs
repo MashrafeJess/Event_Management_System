@@ -18,8 +18,6 @@ namespace Business
             {
                 return new Result(false, "Offer already exists");
             }
-            var img = context.Image.Where(x => x.OfferId == model.OfferId).ToList();
-            model.OfferImage = img;
             context.Offers.Add(model);
             return new Result().DBcommit(context, "Offer added successfully", null, model);
         }
@@ -60,6 +58,15 @@ namespace Business
             }
             context.Offers.Remove(offer);
             return new Result().DBcommit(context, "Offer deleted successfully", null, offer);
+        }
+        public Result ViewList()
+        {
+            var offer = context.Offer_Event_Package_User.ToList();
+            if(offer.Count == 0)
+            {
+                return new Result(false, "No offers found");
+            }
+            return new Result(true, "Offers found", offer);
         }
     }
 }

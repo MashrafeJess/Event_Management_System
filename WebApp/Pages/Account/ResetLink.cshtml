@@ -1,0 +1,27 @@
+﻿@page
+@model WebApp.Pages.Account.ResetLinkModel
+@{
+    Layout = "MyLayout";
+    ViewData["Title"] = "Forgot Password";
+}
+
+<h2>Forgot Password</h2>
+
+<form method="post" class="row g-3">
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email address</label>
+        <input asp-for="form.Email" type="email" class="form-control" placeholder="name@example.com" />
+        <span asp-validation-for="form.Email" class="text-danger"></span>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3">
+            Confirm identity
+        </button>
+    </div>
+</form>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

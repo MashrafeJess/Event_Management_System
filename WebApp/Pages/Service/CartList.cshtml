@@ -1,7 +1,7 @@
 ﻿@page
 @model WebApp.Pages.Service.CartListModel
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<table class="table table-bordered table-hover">
+@* <table class="table table-bordered table-hover">
     <thead class="table-dark">
         <tr>
             <th>Event Name</th>
@@ -18,14 +18,14 @@
             foreach (var item in Model.List)
             {
                 <tr>
-                    @* <td>@item.EventName</td>
-                    <td>@item.SizeName</td> *@
+                    <td>@item.EventName</td>
+                    <td>@item.SizeName</td>
                     <td>@item.Price</td>
 					<td>@item.Location</td>
 					<td>@item.EventDate</td>
                     <td>
                         <a class="btn btn-sm btn-outline-primary" asp-page="/Service/Purchase" asp-route-Id="@item.CartId">
-                            @* <i class="bi bi-pencil-square"></i> Edit *@
+                            <i class="bi bi-pencil-square"></i> Edit
                             <i class="bi bi-pen"></i>
                         </a>
                     </td>
@@ -50,4 +50,4 @@
             </tr>
         }
     </tbody>
-</table>
+</table> *@

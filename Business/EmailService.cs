@@ -1,6 +1,7 @@
 ﻿using System;
 using Business;
 using Database;
+using Database.Context;
 using Database.ViewModel;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -8,28 +9,30 @@ using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
 
-namespace Business.Services
+namespace Business
 {
     public class EmailService
     {
         private readonly IConfiguration _config;
 
-        public EmailService(IConfiguration config)
+        public EmailService()
         {
-            _config = config;
+            // Load appsettings.json manually from current directory
+            _config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
         }
 
         public Result SendMail(UserData user, Payment payment)
         {
             try
             {
-                // Load SMTP config from appsettings.json
                 var host = _config["SmtpSettings:Host"];
                 var port = int.Parse(_config["SmtpSettings:Port"]);
                 var username = _config["SmtpSettings:Username"];
-                var password = _config["SmtpSettings:Password"];
+                var password = _config["SmtpSetonintings:Password"];
 
-                // Create the email
                 var email = new MimeMessage();
                 email.From.Add(MailboxAddress.Parse(username));
                 email.To.Add(MailboxAddress.Parse(user.Email));
@@ -47,7 +50,6 @@ namespace Business.Services
 
                 email.Body = new TextPart(TextFormat.Html) { Text = body };
 
-                // Send the email
                 using var smtp = new SmtpClient();
                 smtp.Connect(host, port, SecureSocketOptions.StartTls);
                 smtp.Authenticate(username, password);
@@ -61,6 +63,7 @@ namespace Business.Services
                 return new Result(false, $"Failed to send email: {ex.Message}");
             }
         }
+
         public Result SendPasswordResetEmail(string toEmail, string userName, string resetLink)
         {
             try
@@ -76,12 +79,12 @@ namespace Business.Services
                 email.Subject = "Password Reset Request";
 
                 var body = $@"
-            <h2>Password Reset</h2>
-            <p>Hi {userName},</p>
-            <p>We received a request to reset your password. Click the link below to choose a new one:</p>
-            <p><a href='{resetLink}' target='_blank'>Reset Password</a></p>
-            <p>If you didn’t request this, please ignore this email.</p>
-            <p>Best regards,<br/>Event Management Team</p>";
+                    <h2>Password Reset</h2>
+                    <p>Hi {userName},</p>
+                    <p>We received a request to reset your password. Click the link below to choose a new one:</p>
+                    <p><a href='{resetLink}' target='_blank'>Reset Password</a></p>
+                    <p>If you didn’t request this, please ignore this email.</p>
+                    <p>Best regards,<br/>Event Management Team</p>";
 
                 email.Body = new TextPart(TextFormat.Html) { Text = body };
 
@@ -91,13 +94,12 @@ namespace Business.Services
                 smtp.Send(email);
                 smtp.Disconnect(true);
 
-                return new Result(true, $"Password reset email sent to {toEmail}");
+                return new Result(true, $"Password reset email sent to {toEmail}",null);
             }
             catch (Exception ex)
             {
                 return new Result(false, $"Failed to send password reset email: {ex.Message}");
             }
         }
-
     }
 }

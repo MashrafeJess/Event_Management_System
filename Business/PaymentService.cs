@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Business;
+using Business;
 using Database; 
-using Database.Context; 
+using Database.Context;
 namespace Business
 {
     public class PaymentService
@@ -88,25 +90,41 @@ namespace Business
             context.Payment.Update(payment);
             return new Result().DBcommit(context, "Order completed successfully", null, payment);
         }
-        public Result Notification(Payment payment)
-        {
-            var ExpiredOrders = context.Payment
-                .Where(c => c.EventDate < DateTime.Now && !c.IsNotified && c.OrderStatusId==1)
-                .ToList();
+        //public class NotificationService
+        //{
+        //    private readonly EventContext context;
+        //    private readonly EmailService emailService;
 
-            foreach (var orders in ExpiredOrders)
-            {
-                var adminsAndManagers = context.UserData.Where(u => u.RoleName == "Admin" || u.RoleName == "Manager").ToList();
-                var emailService = new EmailService();
+        //    public NotificationService(EventContext context, EmailService emailService)
+        //    {
+        //        this.context = context;
+        //        this.emailService = emailService;
+        //    }
 
-                foreach (var user in adminsAndManagers)
-                {
-                    emailService.SendMail(user, orders);
-                }
-                payment.IsNotified = true; // So we don't send again
-                context.Payment.Update(payment);
-            }
-            return new Result().DBcommit(context, "Notification sent successfully", null, payment);
-        }
+        //    public Result Notification()
+        //    {
+        //        var expiredOrders = context.Payment
+        //            .Where(c => c.EventDate < DateTime.Now && !c.IsNotified && c.OrderStatusId == 1)
+        //            .ToList();
+
+        //        foreach (var order in expiredOrders)
+        //        {
+        //            var adminsAndManagers = context.UserData
+        //                .Where(u => u.RoleName == "Admin" || u.RoleName == "Manager")
+        //                .ToList();
+
+        //            foreach (var user in adminsAndManagers)
+        //            {
+        //                emailService.SendMail(user, order);
+        //            }
+
+        //            order.IsNotified = true;
+        //            context.Payment.Update(order);
+        //        }
+
+        //        return new Result().DBcommit(context, "Notification sent successfully", null, null);
+        //    }
+        //}
+
     }
 }

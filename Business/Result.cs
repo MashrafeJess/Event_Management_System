@@ -24,7 +24,17 @@ namespace Business
             }
             catch (Exception ex)
             {
-                return new Result(false, FailedMessage ?? ex.Message, null);
+                // Check if there's an inner exception
+                if (ex.InnerException != null)
+                {
+                    // You can include both the outer exception message and the inner exception details
+                    return new Result(false, $"{FailedMessage ?? ex.Message} Inner Exception: {ex.InnerException.Message}", null);
+                }
+                else
+                {
+                    // If no inner exception, just return the main exception message
+                    return new Result(false, FailedMessage ?? ex.Message, null);
+                }
             }
         }
     }

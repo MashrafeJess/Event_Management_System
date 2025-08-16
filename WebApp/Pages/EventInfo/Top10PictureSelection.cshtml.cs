@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebApp.Pages.EventInfo
 {
-    public class ImageModel : PageModel
+    public class Top10PictureSelectionModel : PageModel
     {
         public void OnGet()
         {

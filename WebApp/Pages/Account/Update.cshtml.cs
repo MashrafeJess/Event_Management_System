@@ -4,13 +4,12 @@ using Business.FakeForm;
 using Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
 namespace WebApp.Pages.Account
 {
     public class UpdateModel : PageModel
     {
         [BindProperty]
-        public MockForm userForm { get; set; }
+        public MockForm userForm { get; set; } = new MockForm();
 
         public string LoggedInUser { get; set; }
 

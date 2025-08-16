@@ -11,8 +11,6 @@ namespace Database
     {
         [Key]
         public int PackageId { get; set; }
-        public int? EventId {get; set;}
-        public int? StandardId { get; set; }
         public string? PackageName { get; set; }
     }
 }

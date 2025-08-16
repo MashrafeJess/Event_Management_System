@@ -28,26 +28,28 @@ namespace Database.Context
         public DbSet<PaymentMethod> PaymentMethod { get; set; }
         public DbSet<PaymentAddOn> PaymentAddOn { get; set; }
         public DbSet<OrderStatus> OrderStatus { get; set; }
-        public DbSet<Top10Images> Top10Images { get; set; } 
+        public DbSet<Top10Images> Top10Images { get; set; }
+        public DbSet<Token> Token { get; set; }
 
 
         public DbSet<UserData> UserData { get; set; }
         public DbSet<Event_UserInfo> Event_UserInfo{ get; set; }
         public DbSet<EventSize_UserInfo> EventSize_UserInfo { get; set; }
-        public DbSet<Package_UserInfo> Package_UserInfo { get; set; }
+        public DbSet<Package_User> Package_User { get; set; }
         public DbSet<OrderList> OrderList { get; set; }
         public DbSet<PaymentAddOnView> PaymentAddOnView { get; set; }
+        public DbSet<Offer_Event_Package_User> Offer_Event_Package_User{ get; set; }
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Event_UserInfo>()
-                .HasNoKey()
-                .ToView("Event_UserInfo");
-            modelBuilder.Entity<Package_UserInfo>().HasNoKey().ToView("Package_UserInfo");
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Event_UserInfo>()
+        //        .HasNoKey()
+        //        .ToView("Event_UserInfo");
+        //    modelBuilder.Entity<Package_UserInfo>().HasNoKey().ToView("Package_UserInfo");
 
-            base.OnModelCreating(modelBuilder);
-        }
+        //    base.OnModelCreating(modelBuilder);
+        //}
 
     }
 }
