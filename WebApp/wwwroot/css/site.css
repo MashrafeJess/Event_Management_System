@@ -158,3 +158,113 @@ body {
     height: 120px;
     border-radius: 8px;
 }
+
+.container {
+    width: 95%;
+    max-width: 900px;
+    padding: 20px;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center; /* Center tabs */
+    gap: 10px; /* Space between tabs */
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab {
+    flex: 1 1 120px; /* Flexible width, min ~120px */
+    text-align: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: 0.3s;
+    background: white;
+    border-radius: 6px 6px 0 0;
+}
+
+    .tab.active {
+        border-bottom: 2px solid #007bff;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+/* Tab content */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+    .tab-content.active {
+        display: block;
+    }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.box {
+    padding: 15px;
+    margin: 8px 0;
+    background: #f8f9fa;
+    border-radius: 6px;
+    text-align: center;
+}
+.rgb-border {
+    position: relative;
+    border-radius: 20px; /* matches rounded-4 */
+    z-index: 0;
+    overflow: hidden;
+    background-color:cornflowerblue (!important)
+}
+
+    .rgb-border::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient( 270deg, red, orange, yellow, green, cyan, blue, violet, red );
+        background-size: 400% 400%;
+        border-radius: inherit;
+        z-index: -1;
+        animation: rgbGlow 6s linear infinite;
+    }
+
+    .rgb-border::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        right: 3px;
+        bottom: 3px;
+        background: inherit; /* keeps the Bootstrap card background */
+        border-radius: inherit;
+        z-index: -1;
+    }
+
+@keyframes rgbGlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}

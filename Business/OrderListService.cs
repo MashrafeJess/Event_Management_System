@@ -11,11 +11,11 @@ namespace Business
     public class OrderListService
     {
         EventContext context = new EventContext();
-        public Result List()
-        {
-            var list = context.OrderList.OrderBy(o => o.CreatedDate).ToList();
-            return new Result(true, "Success", list);
-        }
+        //public Result List()
+        //{
+        //    var list = context.OrderList.OrderBy(o => o.CreatedDate).ToList();
+        //    return new Result(true, "Success", list);
+        //}
         public Result Single(string Id)
         {
             var list = context.OrderList.Where(x => x.UserId == Id).ToList();

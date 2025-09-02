@@ -21,8 +21,8 @@ namespace WebApp.Pages
         {
             roles = new List<string>()
             { "1","2","3" };
-            Result result = new Top10Service().ListTop10Events();
-            top = result.Data as List<Top10Images> ?? new List<Top10Images>();
+            //Result result = new Top10Service().ListTop10Events();
+            //top = result.Data as List<Top10Images> ?? new List<Top10Images>();
         }
     }
 }

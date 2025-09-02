@@ -39,36 +39,14 @@ namespace WebApp.Pages.EventInfo
                 }
             }
         }
-       
-
-        //public async Task<IActionResult> OnPostReplaceImageAsync()
-        //{
-        //    var imageId = Convert.ToInt32(Request.Form["ImageId"]);
-        //    IFormFile file = Request.Form.Files["Image"]; // Ensure you're sending the new image file from the form
-        //    var newFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-        //    var folderPath = Path.Combine("wwwroot", "uploads", "events", imageId.ToString());
-        //    Directory.CreateDirectory(folderPath); // Ensure the directory exists
-        //    var newFilePath = Path.Combine(folderPath, newFileName);
-        //    string newFileHash = ComputeFileHash(file);
-        //    Result result = await new ImageService().ReplaceImage(imageId, newFilePath, newFileHash, User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-
-        //    if (!result.Success)
-        //    {
-        //        TempData["Error"] = result.Message;
-        //        return Page();
-        //    }
-
-        //    TempData["Success"] = "Image replaced successfully.";
-        //    return RedirectToPage("/EventInfo/Events");
-        //}
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-                return Page();
+            //if (!ModelState.IsValid)
+            //    return Page();
 
             Result eventResult;
 
-            if (model.EventId==0) // New event - add
+            if (model.EventId==0 || model.EventId==null) // New event - add
             {
                 model.CreatedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 eventResult = new EventService().AddEvent(model);
@@ -91,6 +69,7 @@ namespace WebApp.Pages.EventInfo
                         return Page();
                     }
                 }
+                return RedirectToPage("/EventInfo/EventList");
             }
             else // Existing event - update
             {

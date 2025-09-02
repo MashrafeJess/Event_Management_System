@@ -2,6 +2,7 @@
 using Database;
 using Database.ViewModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Database.Context
@@ -39,17 +40,27 @@ namespace Database.Context
         public DbSet<OrderList> OrderList { get; set; }
         public DbSet<PaymentAddOnView> PaymentAddOnView { get; set; }
         public DbSet<Offer_Event_Package_User> Offer_Event_Package_User{ get; set; }
+        public DbSet<OfferPackageEvent> OfferPackageEvent { get; set; }
 
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Event_UserInfo>()
-        //        .HasNoKey()
-        //        .ToView("Event_UserInfo");
-        //    modelBuilder.Entity<Package_UserInfo>().HasNoKey().ToView("Package_UserInfo");
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-        //    base.OnModelCreating(modelBuilder);
-        //}
+            // One Standard → Many Events
+            modelBuilder.Entity<Events>()
+                .HasOne(e => e.Standard)
+                .WithMany(s => s.Events)
+                .HasForeignKey(e => e.StandardId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // One Event → Many Images
+            modelBuilder.Entity<Image>()
+                .HasOne(i => i.Event)
+                .WithMany(e => e.Images)
+                .HasForeignKey(i => i.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
 
     }
 }

@@ -1,0 +1,94 @@
+﻿@page
+@model WebApp.Pages.Service.EventDetailsModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="container my-4">
+
+    <!-- Tab Headers -->
+    <div class="tabs d-flex gap-3 mb-3">
+        @if (Model.List != null && Model.List.Any())
+        {
+            var first = true;
+            foreach (var standard in Model.List)
+            {
+                <div class="tab @(first ? "active" : "")"
+                     data-target="tab-@standard.StandardId">
+                    @standard.StandardName
+                </div>
+                first = false;
+            }
+        }
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="tab-contents">
+        @if (Model.List != null && Model.List.Any())
+        {
+            var first = true;
+            foreach (var standard in Model.List)
+            {
+                <div class="tab-content @(first ? "active" : "")"
+                     id="tab-@standard.StandardId">
+
+                    @if (standard.Events != null && standard.Events.Any())
+                    {
+                        <div class="row g-3">
+                            @foreach (var events in standard.Events)
+                            {
+                                <div class="col-md-3 col-sm-6 d-flex">
+                                    <div class="card shadow rounded w-100 d-flex flex-column">
+
+                                        <!-- Square Image -->
+                                        <div class="ratio ratio-1x1">
+                                            <img src="@(events.Images != null && events.Images.Any()
+                                                                                                             ? "/" + events.Images.First().ImagePath
+                                                                                                             : "/images/no-image.png")"
+                                 class="card-img-top object-fit-cover"
+                                 alt="Event Image">
+                        </div>
+
+                                        <!-- Card body -->
+                                        <div class="card-body d-flex flex-column text-center">
+                                            <h5 class="card-title text-truncate">@events.EventName</h5>
+                                            <p class="card-text flex-grow-1">Click on select to arrange this event</p>
+                                            <a asp-route-Id="@events.EventId"
+                                               asp-page="/Service/ViewPackage"
+                                               class="btn btn-primary mt-auto">Select</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-center">No events available for this standard.</p>
+                    }
+                </div>
+                first = false;
+            }
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Tab switching logic
+        const tabs = document.querySelectorAll(".tab");
+        const contents = document.querySelectorAll(".tab-content");
+
+        tabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                // remove active classes
+                tabs.forEach(t => t.classList.remove("active"));
+                contents.forEach(c => c.classList.remove("active"));
+
+                // activate selected
+                tab.classList.add("active");
+                document.getElementById(tab.dataset.target).classList.add("active");
+            });
+        });
+    </script>
+}

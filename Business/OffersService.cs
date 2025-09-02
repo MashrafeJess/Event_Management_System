@@ -23,7 +23,7 @@ namespace Business
         }
         public Result UpdateOffer(Offers model)
         {
-            bool exists = context.Offers.Any(x=> x.OfferId == model.OfferId);
+            bool exists = context.Offers.Any(x => x.OfferId == model.OfferId);
             if (!exists)
             {
                 return new Result(false, "This offer doesn't exist");
@@ -31,16 +31,16 @@ namespace Business
             context.Offers.Update(model);
             return new Result().DBcommit(context, "Offer updated successfully", null, model);
         }
-      public Result List()
-      {
+        public Result List()
+        {
             var offers = context.Offers.ToList();
             if (offers.Count == 0)
             {
                 return new Result(false, "No offers found");
             }
             return new Result(true, "Offers found", offers);
-      }
-       public Result Single(int id)
+        }
+        public Result Single(int id)
         {
             var offer = context.Offers.FirstOrDefault(x => x.OfferId == id);
             if (offer == null)
@@ -62,11 +62,21 @@ namespace Business
         public Result ViewList()
         {
             var offer = context.Offer_Event_Package_User.ToList();
-            if(offer.Count == 0)
+            if (offer.Count == 0)
             {
                 return new Result(false, "No offers found");
             }
             return new Result(true, "Offers found", offer);
         }
+        public Result PackageOffers(int Id)
+        {
+            var offers = context.OfferPackageEvent.Where(x => x.PackageId == Id).ToList();
+            if(offers.Count==0)
+            {
+                return new Result(false, "No offer for this package found");
+            }
+            return new Result(true, "ALl the offers of this package", offers);
+        }
+
     }
 }

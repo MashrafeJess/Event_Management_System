@@ -23,11 +23,11 @@ namespace WebApp.Pages.EventInfo
             }
             else
             {
-                Result result = new OrderListService().List();
-                if (result.Success)
-                {
-                    List = result.Data as List<OrderList>;
-                }
+                //Result result = new OrderListService().List();
+                //if (result.Success)
+                //{
+                //    List = result.Data as List<OrderList>;
+                //}
             }
         }
     }

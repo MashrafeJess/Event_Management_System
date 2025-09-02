@@ -83,25 +83,13 @@
                         @if (isAuthenticated && (role == "3"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="/EventInfo/EventList">Events</a>
-                            </li>
-                        }
-						@if (!isAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Account/LogIn">Events</a>
-                            </li>
-                        }
-                        @if (isAuthenticated && (role == "3"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" href="/EventInfo/OffersList">Offers</a>
+                                <a class="nav-link" href="/Service/EventDetails">Event Details</a>
                             </li>
                         }
                         @if (!isAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="/Account/Login">Offers</a>
+                                <a class="nav-link" href="/Account/Login">Event Details</a>
                             </li>
                         }
                         

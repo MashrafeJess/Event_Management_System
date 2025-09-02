@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Database.Context;
 using Database;
+using Microsoft.EntityFrameworkCore;
 namespace Business
 {
     public class StandardService
@@ -38,6 +39,15 @@ namespace Business
                 return new Result(false, "No standards found");
             }
             return new Result(true, "Standards found", standards);
+        }
+        public Result StandardEventImageList()
+        {
+            var standards = context.Standard.Include(s => s.Events).ThenInclude(e => e.Images).ToList();
+            if (standards.Count == 0)
+            {
+                return new Result(false, "No Events under Standard found");
+            }
+            return new Result(true, "Standards & Event found", standards);
         }
         public Result Single(int id)
         {

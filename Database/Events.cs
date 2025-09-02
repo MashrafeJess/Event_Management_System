@@ -13,5 +13,7 @@ namespace Database
         public int EventId { get; set; }
         public int StandardId { get; set; }
         public string? EventName { get; set; }
+        public Standard? Standard { get; set; }
+        public ICollection<Image> Images { get; set; }
     }
 }

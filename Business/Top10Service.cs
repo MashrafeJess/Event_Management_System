@@ -38,15 +38,15 @@ namespace Business
             context.Top10Images.Update(top);
             return new Result().DBcommit(context, "Top 10 event updated successfully", null, top);
         }
-        public Result ListTop10Events()
-        {
-            var top10List = context.Top10Images.ToList();
-            if (top10List.Count == 0)
-            {
-                return new Result(false, "No Top 10 events found");
-            }
-            return new Result(true, "Top 10 events found", top10List);
-        }
+        //public Result ListTop10Events()
+        //{
+        //    var top10List = context.Top10Images.ToList();
+        //    if (top10List.Count == 0)
+        //    {
+        //        return new Result(false, "No Top 10 events found");
+        //    }
+        //    return new Result(true, "Top 10 events found", top10List);
+        //}
         public Result SingleTop10Event(int id)
         {
             var top10Event = context.Top10Images.FirstOrDefault(x => x.Top10ImageId == id);

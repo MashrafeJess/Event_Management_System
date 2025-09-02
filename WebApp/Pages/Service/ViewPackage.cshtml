@@ -1,0 +1,22 @@
+﻿@page
+@model WebApp.Pages.Service.ViewPackageModel
+@{
+	Layout = "_Layout";
+	ViewData["Title"] = "View Package Details of" + Model.List.First().EventName;
+}
+<div class="container-fluid w-100">
+    <div class="d-flex flex-wrap gap-1 justify-content-evenly text-bold">
+        @if (Model.List != null && Model.List.Any())
+        {
+            foreach(var packages in Model.List)
+            {
+                <div class="bg-secondary p-5 w-25 text-center shadow p-3 mb-5  rounded-4 rgb-border ">
+                    
+                    <a asp-route-Id="@packages.PackageId"
+                       asp-page="/Service/PurchaseTypeList"
+                       class="text-decoration-underline  text-white fw-bolder rounded-4">@packages.PackageName</a>
+                </div>
+            }
+        }
+    </div>
+</div>

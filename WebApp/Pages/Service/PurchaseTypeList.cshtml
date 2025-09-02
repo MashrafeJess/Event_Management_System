@@ -1,40 +1,61 @@
 ﻿@page
 @model WebApp.Pages.Service.PurchaseTypeListModel
+@{
+    Layout = "_Layout";
+}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
+<div class="text-center fs-1 fw-bold mb-5">
+    All offers of @Model.List.First().PackageName Package
+</div>
 
-@* <table class="table table-bordered table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>Event</th>
-            <th>Event Type</th>
-            <th>Price</th>
-            <th>Add Cart</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="container">
+    <div class="row g-4 justify-content-center">
         @if (Model.List != null && Model.List.Any())
         {
-            foreach (var item in Model.List)
+            foreach (var offers in Model.List)
             {
-                <tr>
-                    <td>@item.EventName</td>
-                    <td>@item.SizeName</td>
-                    <td>@item.Price</td>
-                    <td>
-                        <a class="btn btn-sm btn-outline-primary" asp-page="/Service/Purchase" asp-route-Id="@item.PackageId">
-                             <i class="bi bi-pencil-square"></i> 
-                            <i class="bi bi-basket"></i>
-                        </a>
-                    </td>
-                </tr>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="bg-info text-center text-white fw-bold shadow rounded-4 h-100 p-4 d-flex flex-column justify-content-between">
+
+                        <!-- Offer Name -->
+                        <h3 class="fs-3 mb-3 text-wrap text-break offer-title">
+                            @offers.OfferName
+                        </h3>
+
+                        <!-- Button + Collapse -->
+                        <div>
+                            <a class="btn btn-warning mt-auto" data-bs-toggle="collapse" href="#collapse-@offers.OfferId" role="button" aria-expanded="false" aria-controls="collapse-@offers.OfferId">
+                                Offer Details
+                            </a>
+                            <div class="collapse mt-2 text-black" id="collapse-@offers.OfferId">
+                                <div class="card card-body" style="white-space: pre-line;">
+                                    @offers.OfferDescription
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             }
         }
         else
         {
-            <tr>
-                <td colspan="5" class="text-center">No event type available.</td>
-            </tr>
+            <div class="col-12 text-center">
+                <p class="fs-4 text-muted">No offers available.</p>
+            </div>
         }
-    </tbody>
-</table>  *@
+    </div>
+</div>
+
+<style>
+    /* Limit title to max 2 lines with ellipsis (...) */
+    .offer-title {
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Show max 2 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+    }
+</style>

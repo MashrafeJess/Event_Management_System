@@ -60,5 +60,14 @@ namespace Business
             var package = context.Package_User.FirstOrDefault(x => x.PackageId == Id);
             return new Result(true, "Package found", package);
         }
+        public Result EventPackages(int Id)
+        {
+            var EventOffer = context.OfferPackageEvent.Where(x => x.EventId == Id).ToList();
+            if (EventOffer.Count == 0)
+            {
+                return new Result(false, "No offers found for this event");
+            }
+            return new Result(true, "Offers found", EventOffer);
+        }
     }
 }
