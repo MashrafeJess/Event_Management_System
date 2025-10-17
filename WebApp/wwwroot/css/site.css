@@ -268,3 +268,35 @@ body {
         background-position: 0% 50%;
     }
 }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .offer-card {
+        max-width: 100%; /* Full width on smaller screens */
+    }
+
+    .col-lg-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .wide-container {
+        padding: 0 0.5rem; /* Reduced padding on very small screens */
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    .col-lg-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+
+    .offer-card {
+        max-width: 320px; /* Adjusted for medium screens */
+    }
+}
+
+@media (min-width: 1201px) {
+    .offer-card {
+        max-width: 350px; /* Consistent stretch on larger screens */
+    }
+}

@@ -2,21 +2,36 @@
 @model WebApp.Pages.Service.ViewPackageModel
 @{
 	Layout = "_Layout";
-	ViewData["Title"] = "View Package Details of" + Model.List.First().EventName;
+	@if(Model.List.Any())
+    {
+        ViewData["Title"] = "View Package Details of" + Model.List.First().EventName;
+    }
+    else
+    {
+        RedirectToPage("/Error");
+    }
 }
 <div class="container-fluid w-100">
-    <div class="d-flex flex-wrap gap-1 justify-content-evenly text-bold">
+    <h1 class="text-center fs-2 mb-5">Package of @Model.List.First().EventName</h1>
+    <div class="d-flex flex-wrap gap-1 justify-content-evenly text-bold mt-3">
+        
         @if (Model.List != null && Model.List.Any())
         {
             foreach(var packages in Model.List)
             {
                 <div class="bg-secondary p-5 w-25 text-center shadow p-3 mb-5  rounded-4 rgb-border ">
-                    
                     <a asp-route-Id="@packages.PackageId"
                        asp-page="/Service/PurchaseTypeList"
                        class="text-decoration-underline  text-white fw-bolder rounded-4">@packages.PackageName</a>
                 </div>
             }
+        }
+        else
+        {
+            <div class="bg-secondary p-5 w-25 text-center shadow p-3 mb-5  rounded-4 rgb-border ">
+
+                No Package found for this event!!
+            </div>
         }
     </div>
 </div>

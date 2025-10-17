@@ -11,73 +11,60 @@ namespace WebApp.Pages.Service
     [Authorize(Roles = "3")]
     public class PurchaseModel : PageModel
     {
-        //[BindProperty]
-        //public Cart cart { get; set; } = new();
+        [BindProperty]
+        public Cart cart { get; set; } = new Cart();
+        [BindProperty]
+        public OfferPackageEvent offerDetails { get; set; } = new OfferPackageEvent();
 
-        ////   public Package_UserInfo package { get; set; } = new();
+        public void OnGet(int? id = null)
+        {
+            if(id != null)
+            {
 
-        //public IActionResult OnGet(int? id = null)
-        //{
-        //    if (id == null)
-        //    {
-        //        return RedirectToPage("/Service/OrderTypeList");
-        //    }
+                Result result = new OffersService().SingleOfferDetail(id.Value);
+                if (result.Success)
+                {
+                    offerDetails = result.Data as OfferPackageEvent;
+                }
+            }
+        }
 
-        //    // Result result = new PackageService().PackageInfoList(id.Value);
-        //    //if (result.Data is Package_UserInfo packageResult)
-        //    //{
-        //    //    package = packageResult;
-
-        //    //    cart = new Cart
-        //    //    {
-        //    //        PackageId = package.PackageId
-        //    //    };
-        //    //}
-        //    else
-        //    {
-        //        return RedirectToPage("/Service/OrderTypeList");
-        //    }
-
-        //    return Page();
-        //}
-
-        //public IActionResult OnPost()
-        //{
-        //    //if (!ModelState.IsValid)
-        //    //{
-        //    //    if (cart.PackageId > 0)
-        //    //    {
-        //    //        Result result = new PackageService().PackageInfoList(cart.PackageId);
-        //    //        package = result.Data as Package_UserInfo ?? new Package_UserInfo();
-        //    //        Console.WriteLine($"PackageId: {cart.PackageId}, EventName: {package.EventName}, SizeName: {package.SizeName}, Price: {package.Price}");
-        //    //    }
-        //    //    return Page();
-        //    //}
-
-        //    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        //    cart.CreatedBy = userId;
-
-        //    //var packageResult = new PackageService().PackageInfoList(cart.PackageId);
-        //    //if (packageResult.Data is Package_UserInfo pkg)
-        //    //{
-        //    //    cart.EventName = pkg.EventName;
-        //    //    cart.SizeName = pkg.SizeName;
-        //    //    cart.Price = pkg.Price.Value;
-
-        //    //    Console.WriteLine($"Cart EventName: {cart.EventName}, SizeName: {cart.SizeName}, Price: {cart.Price}");
-        //    //}
-
-        //    //var cartService = new CartService();
-        //    //if (cart.CartId == null || cart.CartId == 0)
-        //    //{
-        //    //    cartService.AddCart(cart);
-        //    //}
-        //    //else
-        //    //{
-        //    //    cartService.UpdateCart(cart);
-        //    //}
-
-        //    return RedirectToPage("/Service/CartList");
-        //}
+        public IActionResult OnPost()
+        {
+            if(cart.CartId==0)
+            {
+                cart = new Cart
+                {
+                    EventId = offerDetails.EventId,
+                    PackageId = offerDetails.PackageId,
+                    OfferId = offerDetails.OfferId,
+                    Price = offerDetails.OfferPrice,
+                    Location = cart.Location,
+                    EventDate = cart.EventDate,
+                    CreatedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                };
+                Result result = new CartService().AddCart(cart);
+                if (result.Success)
+                {
+                    return RedirectToPage("/Service/CartList");
+                }
+                else
+                {
+                    TempData["Error"] = result.Message;
+                    return RedirectToPage("/Service/Purchase");
+                }
+            }
+            else
+            {
+                cart.UpdatedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                cart.UpdatedDate = DateTime.Now;
+                Result result = new CartService().UpdateCart(cart);
+                if(!result.Success)
+                {
+                    return Page();
+                }
+                return RedirectToPage("/Service/Payment");
+            }
+        }
     }
 }

@@ -41,8 +41,7 @@ namespace Database.Context
         public DbSet<PaymentAddOnView> PaymentAddOnView { get; set; }
         public DbSet<Offer_Event_Package_User> Offer_Event_Package_User{ get; set; }
         public DbSet<OfferPackageEvent> OfferPackageEvent { get; set; }
-
-
+        public DbSet<JoinCart> JoinCart { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

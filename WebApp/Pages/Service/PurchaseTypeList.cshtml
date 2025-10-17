@@ -9,30 +9,55 @@
     All offers of @Model.List.First().PackageName Package
 </div>
 
-<div class="container">
-    <div class="row g-4 justify-content-center">
+<!-- Wider container -->
+<div class="container-fluid wide-container">
+    <div class="row g-4 justify-content-evenly">
         @if (Model.List != null && Model.List.Any())
         {
             foreach (var offers in Model.List)
             {
-                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                    <div class="bg-info text-center text-white fw-bold shadow rounded-4 h-100 p-4 d-flex flex-column justify-content-between">
-
+                <!-- 3 cards per row on large screens -->
+                <div class="col-md-auto d-flex">
+                    <div class="offer-card text-white shadow rounded-4 h-100 p-4 d-flex flex-column justify-content-between align-items-center w-100">
                         <!-- Offer Name -->
-                        <h3 class="fs-3 mb-3 text-wrap text-break offer-title">
+                        <h3 class="fs-3 mb-3 text-wrap text-break offer-title text-center">
                             @offers.OfferName
                         </h3>
 
-                        <!-- Button + Collapse -->
-                        <div>
-                            <a class="btn btn-warning mt-auto" data-bs-toggle="collapse" href="#collapse-@offers.OfferId" role="button" aria-expanded="false" aria-controls="collapse-@offers.OfferId">
-                                Offer Details
+                        <!-- Price Section -->
+                        <h1 class="price-text text-center">
+                            <span class="fs-3 amount">@(offers.OfferPrice.ToString("N0"))</span>
+                            <span class="currency">BDT</span>
+                        </h1>
+
+                        <!-- Description -->
+                        <div class="text-center mt-3 w-100">
+                            @foreach (var line in offers.OfferDescription.Split('\n'))
+                            {
+                                if (!string.IsNullOrWhiteSpace(line))
+                                {
+                                    var parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                    if (parts.Length > 1 && int.TryParse(parts.Last(), out _))
+                                    {
+                                        <div class="desc-line d-flex justify-content-center gap-2">
+                                            <span>@string.Join(" ", parts.Take(parts.Length - 1))</span>
+                                            <span>@parts.Last()</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="desc-line">@line</div>
+                                    }
+                                }
+                            }
+                        </div>
+						<!-- Purchase Button -->
+                        <div class="mt-4 w-100">
+                            <a class="btn btn-light text-primary w-100 fw-bold"
+                               asp-page="/Service/Purchase"
+                               asp-route-id="@offers.OfferId">
+                                <i class="bi bi-cart3-fill me-2"></i> Purchase Now
                             </a>
-                            <div class="collapse mt-2 text-black" id="collapse-@offers.OfferId">
-                                <div class="card card-body" style="white-space: pre-line;">
-                                    @offers.OfferDescription
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -49,10 +74,60 @@
 </div>
 
 <style>
-    /* Limit title to max 2 lines with ellipsis (...) */
+    /* Make the container wider */
+    .wide-container {
+        max-width: 1600px; /* increase max width */
+        padding-left: 2rem;
+        padding-right: 2rem;
+        margin: 0 auto; /* center container */
+    }
+
+    /* Card styling */
+    .offer-card {
+        background: linear-gradient(135deg, #006d77, #83c5be);
+        border: none;
+        transition: transform 0.2s ease-in-out;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex: 1 1 auto; /* stretch to fill column */
+    }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+        }
+
+    /* Price styling */
+    .price-text {
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        gap: 6px;
+    }
+
+        .price-text .amount {
+            font-size: 2.2rem;
+            font-weight: bold;
+        }
+
+        .price-text .currency {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+    /* Description lines */
+    .desc-line {
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+        text-align: center;
+        flex-wrap: wrap;
+    }
+
+    /* Responsive title */
     .offer-title {
         display: -webkit-box;
-        -webkit-line-clamp: 2; /* Show max 2 lines */
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;

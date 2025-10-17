@@ -1,35 +1,42 @@
 ﻿@page
 @model WebApp.Pages.Service.PurchaseModel
-
-{
+@{
     ViewData["Title"] = "Complete Your Purchase";
 }
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
 
-@*@<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
+<div class="container-fluid mt-5 wide-container">
+    <div class="row justify-content-center ">
+        <div class="col-md-8 col-lg-6 w-100 ">
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white">
                     <h5 class="mb-0"><i class="bi bi-cart-check me-2"></i>Complete Your Order</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body justify-content-center">
                     <form method="post" class="needs-validation" novalidate>
-                        <input type="hidden" asp-for="package.PackageId" />
-                        <input type="hidden" asp-for="cart.PackageId" />
+                        <input type="hidden" asp-for="offerDetails.PackageId" />
+                        <input type="hidden" asp-for="offerDetails.EventId" />
+                        <input type="hidden" asp-for="offerDetails.OfferId" />
+                        <input type="hidden" asp-for="offerDetails.OfferPrice" />
                         <!-- Package Details (Display Only) -->
-                        <div class="mb-4 p-3 bg-light rounded">
+                        <div class="mb-4 p-3 bg-light rounded fs-5 ">
                             <h6 class="text-primary mb-3"><i class="bi bi-box-seam me-2"></i>Package Details</h6>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p class="mb-1"><strong>Event:</strong> @Model.package.EventName</p>
-                                    <p class="mb-1"><strong>Size:</strong> @Model.package.SizeName</p>
+                                    <p class="mb-1"><strong>Event: </strong> @Model.offerDetails.EventName</p>
+                                    <p class="mb-1"><strong>Package Name: </strong> @Model.offerDetails.PackageName</p>
+                                    <p class="mb-1"><strong>Offer Name: </strong> @Model.offerDetails.OfferName</p>
+                                    <p class="mb-1">
+                                        <strong>Price : </strong>
+                                        <span class="fs-4 text-danger amount">@(Model.offerDetails.OfferPrice.ToString("N0"))</span>
+                                        <span class="currency">BDT</span>
+                                    </p>
                                 </div>
-                                <div class="col-md-6 text-end">
-                                    <p class="mb-1"><strong>Price:</strong> <span class="text-success">@Model.package.Price</span> tk</p>
-                                </div>
+                                @* <div class="col-md-6 text-end">
+                                    
+                                </div> *@
                             </div>
                         </div>
 
@@ -58,10 +65,30 @@
             </div>
         </div>
     </div>
+    <div class="p-3">
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">@TempData["Success"]</div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">@TempData["Error"]</div>
+        }
+    </div>
 </div>
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>setTimeout(function () {
+            const alertEl = document.querySelector(".alert");
+            if (alertEl) {
+                alertEl.style.transition = "opacity 0.5s ease-out";
+                alertEl.style.opacity = "0";
+                setTimeout(() => alertEl.remove(), 500); // remove after fade
+            }
+        }, 4000); // 4 seconds
+    </script>
     <script>
         flatpickr('.datepicker', {
             minDate: 'today',
@@ -81,5 +108,6 @@
                 }, false)
             })
         })()
+
     </script>
-} *@
+}

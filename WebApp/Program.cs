@@ -2,7 +2,6 @@
 using Database.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using static Business.PaymentService;
 
 namespace WebApp
 {

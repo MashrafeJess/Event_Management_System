@@ -45,10 +45,10 @@ namespace Business
             }
             return new Result(true, "Packages found", packages);
         }
-        public Result Single (int id)
+        public Result Single(int id)
         {
-            var package = context.Package.FirstOrDefault(x=>x.PackageId == id);
-            return new Result(true, "Package found", package);  
+            var package = context.Package.FirstOrDefault(x => x.PackageId == id);
+            return new Result(true, "Package found", package);
         }
         public Result PackageNewList()
         {
@@ -62,12 +62,35 @@ namespace Business
         }
         public Result EventPackages(int Id)
         {
-            var EventOffer = context.OfferPackageEvent.Where(x => x.EventId == Id).ToList();
+            var EventOffer = context.OfferPackageEvent
+            .Where(x => x.EventId == Id)
+             .AsEnumerable()   // move to memory (LINQ to Objects)
+             .DistinctBy(x => x.PackageId)
+                .ToList();
+
             if (EventOffer.Count == 0)
             {
                 return new Result(false, "No offers found for this event");
             }
             return new Result(true, "Offers found", EventOffer);
         }
+        public Result AllPackageNamesOnly()
+        {
+            var model = context.Package
+                .Select(x => new Package
+                {
+                    PackageId = x.PackageId,
+                    PackageName = x.PackageName
+                })
+                .ToList();
+
+            if (!model.Any())
+            {
+                return new Result(false, "No packages found", null);
+            }
+
+            return new Result(true, "Successfully retrieved all package names", model);
+        }
     }
+
 }

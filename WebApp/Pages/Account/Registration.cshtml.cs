@@ -17,7 +17,7 @@ namespace WebApp.Pages.Account
         {
             Result result = new UserService().Registration(userForm);
             if (result.Success)
-                return RedirectToPage("/Index");
+                return RedirectToPage("/Account/Login");
             else return Page();
         }
     }

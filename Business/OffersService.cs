@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Database;
 using Database.Context;
+using Database.ViewModel;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Business
 {
@@ -49,6 +52,20 @@ namespace Business
             }
             return new Result(true, "Offer found", offer);
         }
+        public async Task<Result> GetByEventAndPackageAsync(int eventId, int packageId)
+        {
+            var offers = await context.Offers
+                .Where(x => x.EventId == eventId && x.PackageId == packageId)
+                .ToListAsync();
+
+            if (offers.Count == 0)
+            {
+                return new Result(false, "No offers found for this event and package");
+            }
+
+            return new Result(true, "Offers found", offers);
+        }
+
         public Result DeleteOffer(int id)
         {
             var offer = context.Offers.FirstOrDefault(x => x.OfferId == id);
@@ -77,6 +94,14 @@ namespace Business
             }
             return new Result(true, "ALl the offers of this package", offers);
         }
-
+        public Result SingleOfferDetail(int Id)
+        {
+            OfferPackageEvent offer = context.OfferPackageEvent.Where(x => x.OfferId == Id).FirstOrDefault();
+            if(offer==null)
+            {
+                return new Result(false, "No such offer found");
+            }
+            return new Result(true, "Offer found!!", offer);
+        }
     }
 }

@@ -1,4 +1,91 @@
-﻿@page
+﻿@page "{cartId?}"
 @model WebApp.Pages.Service.BookOfferDirectModel
 @{
+    ViewData["Title"] = "Book Offer (Direct)";
+}
+
+<h2 class="mb-4">Book Offer (Direct)</h2>
+
+<form method="post" class="card p-4 shadow-sm border-0">
+
+    <!-- Hidden CartId -->
+    <input type="hidden" asp-for="cart.CartId" />
+
+    <!-- Event Dropdown -->
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Event</label>
+        <select asp-for="SelectedEventId" asp-items="Model.EventsSelectList" class="form-select" id="eventSelect">
+            <option value="">-- Select Event --</option>
+        </select>
+        <span asp-validation-for="SelectedEventId" class="text-danger"></span>
+    </div>
+
+    <!-- Package Dropdown -->
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Package</label>
+        <select asp-for="SelectedPackageId" asp-items="Model.PackagesSelectList" class="form-select" id="packageSelect">
+            <option value="">-- Select Package --</option>
+        </select>
+        <span asp-validation-for="SelectedPackageId" class="text-danger"></span>
+    </div>
+
+    <!-- Offer Dropdown -->
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Offer</label>
+        <select asp-for="cart.OfferId" class="form-select" id="offerSelect">
+            <option value="">-- Select Offer --</option>
+        </select>
+        <span asp-validation-for="cart.OfferId" class="text-danger"></span>
+    </div>
+
+    <!-- Event Date -->
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Event Date</label>
+        <input asp-for="cart.EventDate" type="date" class="form-control" />
+        <span asp-validation-for="cart.EventDate" class="text-danger"></span>
+    </div>
+
+    <!-- Location -->
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Location</label>
+        <input asp-for="cart.Location" type="text" class="form-control" placeholder="Enter location" />
+        <span asp-validation-for="cart.Location" class="text-danger"></span>
+    </div>
+
+    <!-- Submit -->
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary px-4">
+            <i class="bi bi-save me-1"></i> Save
+        </button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.getElementById('eventSelect').addEventListener('change', loadOffers);
+        document.getElementById('packageSelect').addEventListener('change', loadOffers);
+
+        function loadOffers() {
+            const eventId = document.getElementById('eventSelect').value;
+            const packageId = document.getElementById('packageSelect').value;
+
+            if (!eventId || !packageId) {
+                console.log("Select both Event and Package first.");
+                return;
+            }
+
+            fetch(`/Service/BookOfferDirect?handler=Offers&eventId=${eventId}&packageId=${packageId}`)
+                .then(res => res.json())
+                .then(data => {
+                    const offerSelect = document.getElementById('offerSelect');
+                    offerSelect.innerHTML = '<option value="">-- Select Offer --</option>';
+                    data.forEach(o => {
+                        offerSelect.innerHTML += `<option value="${o.offerId}">${o.offerName}</option>`;
+                    });
+                })
+                .catch(err => console.error("Error loading offers:", err));
+        }
+    </script>
 }

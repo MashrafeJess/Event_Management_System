@@ -29,9 +29,9 @@ namespace Business
             context.Entry(existingEvent).State = EntityState.Detached;
             if (string.IsNullOrEmpty(eventModel.EventName))
             {
-                eventModel.EventName = existingEvent.EventName; 
+                eventModel.EventName = existingEvent.EventName;
             }
-            if (eventModel.StandardId==0)
+            if (eventModel.StandardId == 0)
             {
                 eventModel.EventName = existingEvent.EventName;
             }
@@ -73,12 +73,31 @@ namespace Business
         public Result EventDelete(int id)
         {
             var model = context.Events.Where(x => x.EventId == id).FirstOrDefault();
-            if(model == null)
+            if (model == null)
             {
                 return new Result(false, "This event is not found");
             }
             context.Remove(model);
             return new Result().DBcommit(context, "This event was deleted successfully", null);
         }
+
+        public Result AllEventsNameOnly()
+        {
+            var model = context.Events
+                .Select(x => new Events
+                {
+                    EventId = x.EventId,
+                    EventName = x.EventName
+                })
+                .ToList();
+
+            if (!model.Any())
+            {
+                return new Result(false, "No events found", null);
+            }
+
+            return new Result(true, "Successfully retrieved all names", model);
+        }
     }
+
 }
